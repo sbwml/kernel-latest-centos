@@ -12,6 +12,7 @@ jobs:
       fail-fast: false
     container:
       image: centos:7
+      options: --hostname builder
 
     steps:
     - name: Checkout
@@ -55,7 +56,6 @@ jobs:
         curl -L -k https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${{ env.VERSION }}.tar.xz -o rpmbuild/SOURCES/linux-${{ env.VERSION }}.tar.xz
         mv rpmbuild ~/
         # build
-        hostname builder
         pushd ~/rpmbuild
             rpmbuild -ba SPECS/kernel-${{ env.VERSION }}.spec
             mkdir ${{ env.TOP }}/out
