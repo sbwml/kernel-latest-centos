@@ -41,14 +41,13 @@ jobs:
     - name: Build Linux Kernel
       if: env.next == 'true'
       run: |
-        ls
-        pwd
         DATE=$(date +"%a %b %d %Y")
+        # spec
         echo "* $DATE sbwml <admin@cooluc.com> - ${{ env.VERSION }}-1" >> kernel.spec
         echo "- Updated with the ${{ env.VERSION }} source tarball." >> kernel.spec
         echo "- [https://www.kernel.org/pub/linux/kernel/v6.x/ChangeLog-${{ env.VERSION }}]" >> kernel.spec
-
         sed -i "s/KERNEL_VERSION/${{ env.VERSION }}/g" kernel.spec
+        # src
         mkdir -pv rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
         cp kernel.spec rpmbuild/SPECS/kernel-${{ env.VERSION }}.spec
         cp config rpmbuild/SOURCES/config-${{ env.VERSION }}-x86_64
@@ -56,6 +55,7 @@ jobs:
         curl -L -k https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${{ env.VERSION }}.tar.xz -o rpmbuild/SOURCES/linux-${{ env.VERSION }}.tar.xz
         mv rpmbuild ~/
         # build
+        hostname builder
         pushd ~/rpmbuild
             rpmbuild -ba SPECS/kernel-${{ env.VERSION }}.spec
             mkdir ${{ env.TOP }}/out
