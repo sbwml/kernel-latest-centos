@@ -1,0 +1,59 @@
+name: Linux Kernel 6.1
+
+on:
+  watch:
+    types: started
+
+jobs:
+  build:
+    name: Build Linux Kernel
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    container:
+      image: centos:7
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@main
+
+    - name: Setting up the environment
+      run: |
+        curl -s https://repo.cooluc.com/mailbox.repo > /etc/yum.repos.d/mailbox.repo
+        yum makecache
+        yum install -y centos-release-scl-rh centos-release-scl
+        yum install -y rpmdevtools devtoolset-10-gcc devtoolset-10-binutils devtoolset-10-runtime scl-utils asciidoc bc bison elfutils-libelf-devel gcc m4 newt-devel openssl-devel rsync xmlto dwarves libcap-devel ncurses-devel pciutils-devel curl sed
+
+    - name: Check Linux Kernel Version
+      run: |
+        # the original commit does not seem to be readable inside the container, so use github api.
+        TAGS=$(curl -sk https://api.github.com/repos/sbwml/centos_linux_6.1/tags | grep "name")
+        LATEST_VERSION=$(curl -s https://cdn.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc | awk '{print $2}' | grep -E ^linux-6.1 | grep tar.xz | sed 's/linux-//g;s/.tar.xz//g' | tail -n 1)
+        if [[ "$TAGS" == *"$LATEST_VERSION"* ]]; then
+            echo -e " \n\e[1;32mlinux-v$LATEST_VERSION is already the latest lts version.\e[0m\n"
+            exit 0
+        else
+            echo "VERSION=$LATEST_VERSION" >> "$GITHUB_ENV"
+            echo "next=true" >> "$GITHUB_ENV"
+        fi
+
+    - name: Build Linux Kernel
+      if: env.next == 'true'
+      run: |
+        ls
+        pwd
+        cat >> kernel.spec <<EOF
+* $(date +"%a %b %d %Y") sbwml <admin@cooluc.com> - ${{ env.VERSION }}-1
+- Updated with the ${{ env.VERSION }} source tarball.
+- [https://www.kernel.org/pub/linux/kernel/v6.x/ChangeLog-${{ env.VERSION }}]
+EOF
+        sed -i "s/KERNEL_VERSION/${{ env.VERSION }}/g" kernel.spec
+        mkdir -pv rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
+        cp kernel.spec rpmbuild/SPECS/kernel-${{ env.VERSION }}.spec
+        cp config rpmbuild/SOURCES/config-${{ env.VERSION }}-x86_64
+        cp -a src/* rpmbuild/SOURCES/
+        curl -L https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${{ env.VERSION }}.tar.xz -o rpmbuild/SOURCES/linux-${{ env.VERSION }}.tar.xz
+        # build
+        pushd rpmbuild
+            rpmbuild -ba SPECS/kernel-${{ env.VERSION }}.spec
+        popd
