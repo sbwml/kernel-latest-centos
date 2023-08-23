@@ -42,11 +42,11 @@ jobs:
       run: |
         ls
         pwd
-        cat >> kernel.spec <<EOF
-* $(date +"%a %b %d %Y") sbwml <admin@cooluc.com> - ${{ env.VERSION }}-1
-- Updated with the ${{ env.VERSION }} source tarball.
-- [https://www.kernel.org/pub/linux/kernel/v6.x/ChangeLog-${{ env.VERSION }}]
-EOF
+        DATE=$(date +"%a %b %d %Y")
+        echo "* $DATE sbwml <admin@cooluc.com> - ${{ env.VERSION }}-1" >> kernel.spec
+        echo "- Updated with the ${{ env.VERSION }} source tarball." >> kernel.spec
+        echo "- [https://www.kernel.org/pub/linux/kernel/v6.x/ChangeLog-${{ env.VERSION }}]" >> kernel.spec
+
         sed -i "s/KERNEL_VERSION/${{ env.VERSION }}/g" kernel.spec
         mkdir -pv rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
         cp kernel.spec rpmbuild/SPECS/kernel-${{ env.VERSION }}.spec
