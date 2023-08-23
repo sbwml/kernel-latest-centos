@@ -29,11 +29,11 @@ jobs:
         # the original commit does not seem to be readable inside the container, so use github api.
         TAGS=$(curl -sk https://api.github.com/repos/sbwml/centos_linux_6.1/tags | grep "name")
         LATEST_VERSION=$(curl -s https://cdn.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc | awk '{print $2}' | grep -E ^linux-6.1 | grep tar.xz | sed 's/linux-//g;s/.tar.xz//g' | tail -n 1)
+        echo "VERSION=$LATEST_VERSION" >> "$GITHUB_ENV"
         if [[ "$TAGS" == *"$LATEST_VERSION"* ]]; then
             echo -e " \n\e[1;32mlinux-v$LATEST_VERSION is already the latest lts version.\e[0m\n"
             exit 0
         else
-            echo "VERSION=$LATEST_VERSION" >> "$GITHUB_ENV"
             echo "next=true" >> "$GITHUB_ENV"
         fi
 
@@ -52,7 +52,7 @@ jobs:
         cp kernel.spec rpmbuild/SPECS/kernel-${{ env.VERSION }}.spec
         cp config rpmbuild/SOURCES/config-${{ env.VERSION }}-x86_64
         cp -a src/* rpmbuild/SOURCES/
-        curl -L https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${{ env.VERSION }}.tar.xz -o rpmbuild/SOURCES/linux-${{ env.VERSION }}.tar.xz
+        curl -L -k https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${{ env.VERSION }}.tar.xz -o rpmbuild/SOURCES/linux-${{ env.VERSION }}.tar.xz
         # build
         pushd rpmbuild
             rpmbuild -ba SPECS/kernel-${{ env.VERSION }}.spec
