@@ -35,6 +35,7 @@ jobs:
             exit 0
         else
             echo "next=true" >> "$GITHUB_ENV"
+            echo "TOP=$(pwd)" >> "$GITHUB_ENV"
         fi
 
     - name: Build Linux Kernel
@@ -53,7 +54,17 @@ jobs:
         cp config rpmbuild/SOURCES/config-${{ env.VERSION }}-x86_64
         cp -a src/* rpmbuild/SOURCES/
         curl -L -k https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${{ env.VERSION }}.tar.xz -o rpmbuild/SOURCES/linux-${{ env.VERSION }}.tar.xz
+        mv rpmbuild ~/
         # build
-        pushd rpmbuild
+        pushd ~/rpmbuild
             rpmbuild -ba SPECS/kernel-${{ env.VERSION }}.spec
+            mkdir ${{ env.TOP }}/out
+            cp -a RPMS ${{ env.TOP }}/out/
+            cp -a SRPMS ${{ env.TOP }}/out/
         popd
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: kernel-${{ env.VERSION }}
+        path: ${{ env.TOP }}/out/*
