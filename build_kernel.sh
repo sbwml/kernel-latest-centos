@@ -26,7 +26,7 @@ if [ $NEW_VERSION = y ]; then
     echo "* $DATE sbwml <admin@cooluc.com> - $LATEST_VERSION-1" >> kernel.spec
     echo "- Updated with the $LATEST_VERSION source tarball." >> kernel.spec
     echo "- [https://www.kernel.org/pub/linux/kernel/v6.x/ChangeLog-$LATEST_VERSION]" >> kernel.spec
-    sed -i "s/KERNEL_VERSION/$LATEST_VERSION/g" kernel.spec
+    sed -i "s/KERNEL_VERSION/$LATEST_VERSION/g" config kernel.spec
     # src
     mkdir -pv rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
     cp kernel.spec rpmbuild/SPECS/kernel-$LATEST_VERSION.spec
@@ -36,6 +36,15 @@ if [ $NEW_VERSION = y ]; then
     # build
     pushd ~/rpmbuild
         rpmbuild -ba SPECS/kernel-$LATEST_VERSION.spec
+        if [ "$?" = 1 ]; then
+            pushd BUILD/kernel-$LATEST_VERSION/linux-$LATEST_VERSION-*
+                [ -f newoptions-el7-x86_64.txt ] && cat newoptions-el7-x86_64.txt >> .config
+                . /opt/rh/devtoolset-10/enable
+                make -s ARCH=x86_64 oldconfig
+                \cp .config ../../../SOURCES/config-$LATEST_VERSION-x86_64
+            popd
+            rpmbuild -ba SPECS/kernel-$LATEST_VERSION.spec
+        fi
         mkdir /rpm
         cp -a RPMS/x86_64/*.rpm /rpm
         cp -a SRPMS/*.rpm /rpm
