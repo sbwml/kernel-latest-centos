@@ -56,4 +56,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: kernel-${{ env.kernel_version }}
-        path: ${{ env.rootfs }}/rpm/*
+        path: ${{ env.rootfs }}/rpm.tar.gz
