@@ -63,3 +63,14 @@ jobs:
       with:
         name: kernel-${{ env.kernel_version }}
         path: ${{ env.rootfs }}/rpm.tar.gz
+
+    - name: Create release
+      uses: ncipollo/release-action@v1.11.1
+      with:
+        name: kernel-${{ env.kernel_version }}
+        allowUpdates: true
+        tag: ${{ env.kernel_version }}
+        commit: main
+        replacesArtifacts: true
+        token: ${{ secrets.workflow_token }}
+        artifacts: ${{ env.rootfs }}/rpm/*

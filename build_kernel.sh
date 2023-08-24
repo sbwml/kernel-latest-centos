@@ -37,8 +37,8 @@ if [ $NEW_VERSION = y ]; then
     pushd ~/rpmbuild
         rpmbuild -ba SPECS/kernel-$LATEST_VERSION.spec
         mkdir /rpm
-        cp -a RPMS /rpm
-        cp -a SRPMS /rpm
+        cp -a RPMS/x86_64/*.rpm /rpm
+        cp -a SRPMS/*.rpm /rpm
     popd
     cd /
     tar zcvf rpm.tar.gz rpm
