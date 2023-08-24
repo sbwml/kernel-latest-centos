@@ -34,8 +34,8 @@ jobs:
         wget https://github.com/sbwml/centos_linux_6.1/releases/download/rootfs/rootfs.tar.xz >/dev/null 2>&1
         tar xf rootfs.tar.xz && rm -f rootfs.tar.xz
         echo "rootfs=$(pwd)/rootfs" >> "$GITHUB_ENV"
-        sudo mount --bind /dev ${{ env.rootfs }}/dev
-        sudo mount -t proc /proc ${{ env.rootfs }}/proc
+        sudo mount -o bind /dev rootfs/dev
+        sudo mount -t proc /proc rootfs/proc
 
     - name: Build Linux Kernel
       run: |
