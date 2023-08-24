@@ -18,6 +18,12 @@ jobs:
         sudo timedatectl set-timezone 'Asia/Shanghai'
         sudo hostnamectl set-hostname "builder"
 
+    - name: Show system
+      run: |
+        lscpu
+        free -h
+        df -Th
+
     - name: Free disk space
       run: |
         sudo docker image prune -a -f
