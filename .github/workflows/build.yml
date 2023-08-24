@@ -1,0 +1,59 @@
+name: Linux Kernel 6.1 LTS
+
+on:
+  watch:
+    types: started
+
+jobs:
+  build:
+    name: Build Linux Kernel
+    runs-on: ubuntu-20.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@main
+
+    - name: Set timezone & hostname
+      run: |
+        sudo timedatectl set-timezone 'Asia/Shanghai'
+        sudo hostnamectl set-hostname "builder"
+
+    - name: Free disk space
+      run: |
+        sudo docker image prune -a -f
+        sudo systemctl stop docker
+        sudo snap set system refresh.retain=2
+        sudo apt-get -y purge firefox clang* ghc* google* llvm* mono* mongo* mysql* php*
+        sudo apt-get -y autoremove --purge
+        sudo apt-get clean
+        sudo rm -rf /etc/mysql /etc/php /usr/lib/jvm /usr/libexec/docker /usr/local /usr/src/* /var/lib/docker /var/lib/gems /var/lib/mysql /var/lib/snapd /etc/skel /opt/{microsoft,az,hostedtoolcache,cni,mssql-tools,pipx} /usr/share/{az*,dotnet,swift,miniconda,gradle*,java,kotlinc,ri,sbt}
+        df -Th
+
+    - name: Init centos rootfs
+      run: |
+        wget https://github.com/sbwml/centos_linux_6.1/releases/download/rootfs/rootfs.tar.xz >/dev/null 2>&1
+        tar xf rootfs.tar.xz && rm -f rootfs.tar.xz
+        echo "rootfs=$(pwd)/rootfs" >> "$GITHUB_ENV"
+        sudo mount --bind /dev ${{ env.rootfs }}/dev
+        sudo mount -t proc /proc ${{ env.rootfs }}/proc
+
+    - name: Build Linux Kernel
+      run: |
+        sudo cp -a build_kernel.sh ${{ env.rootfs }}
+        sudo cp -a config ${{ env.rootfs }}/root
+        sudo cp -a kernel.spec ${{ env.rootfs }}/root
+        sudo cp -a src ${{ env.rootfs }}/root
+        sudo chroot ${{ env.rootfs }} /bin/bash /build_kernel.sh
+        if [ -f ${{ env.rootfs }}/VERSION ]; then
+            echo 'kernel_version<<EOF' >> $GITHUB_ENV
+            cat ${{ env.rootfs }}/VERSION >> $GITHUB_ENV
+            echo 'EOF' >> $GITHUB_ENV
+            echo "new_version=true" >> $GITHUB_ENV
+        fi
+
+    - name: Upload Artifacts
+      if: env.new_version == 'true'
+      uses: actions/upload-artifact@v3
+      with:
+        name: kernel-${{ env.kernel_version }}
+        path: ${{ env.rootfs }}/rpm/*
