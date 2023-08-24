@@ -7,10 +7,10 @@ yum makecache
 yum install -y rpmdevtools devtoolset-10-gcc devtoolset-10-binutils devtoolset-10-runtime scl-utils asciidoc bc bison elfutils-libelf-devel gcc gettext hostname m4 newt-devel net-tools openssl openssl-devel rsync xmlto dwarves libcap-devel ncurses-devel pciutils-devel sed tar
 
 # Check Linux Kernel Version
-TAGS=$(curl -sk https://api.github.com/repos/sbwml/centos_linux_6.1/tags | grep "name")
+TAGS=$(curl -sk https://api.github.com/repos/sbwml/kernel-latest-centos/tags | grep "name")
 LATEST_VERSION=$(curl -s https://cdn.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc | awk '{print $2}' | grep -E ^linux-6.1 | grep tar.xz | sed 's/linux-//g;s/.tar.xz//g' | tail -n 1)
 if [[ "$TAGS" == *"$LATEST_VERSION"* ]]; then
-    echo -e " \n\e[1;32mlinux-v$LATEST_VERSION is already the latest lts version.\e[0m\n"
+    echo -e " \n\e[1;32mlinux-$LATEST_VERSION is already the latest lts version.\e[0m\n"
     exit 0
 else
     NEW_VERSION=y
