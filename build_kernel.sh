@@ -1,12 +1,7 @@
 #!/bin/bash
 
-# Setting up the environment
-yum install -y centos-release-scl-rh centos-release-scl curl
-curl -s https://repo.cooluc.com/mailbox.repo > /etc/yum.repos.d/mailbox.repo
-yum makecache
-yum install -y rpmdevtools devtoolset-10-gcc devtoolset-10-binutils devtoolset-10-runtime scl-utils asciidoc bc bison elfutils-libelf-devel gcc gettext hostname m4 newt-devel net-tools openssl openssl-devel rsync xmlto dwarves libcap-devel ncurses-devel pciutils-devel sed tar
-
 # Check Linux Kernel Version
+yum install -y curl
 TAGS=$(curl -sk https://api.github.com/repos/sbwml/kernel-latest-centos/tags | grep "name")
 LATEST_VERSION=$(curl -s https://cdn.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc | awk '{print $2}' | grep -E ^linux-6.1 | grep tar.xz | sed 's/linux-//g;s/.tar.xz//g' | tail -n 1)
 if [[ "$TAGS" == *"$LATEST_VERSION"* ]]; then
@@ -16,6 +11,12 @@ else
     NEW_VERSION=y
     echo $LATEST_VERSION > /VERSION
 fi
+
+# Setting up the environment
+yum install -y centos-release-scl-rh centos-release-scl
+curl -s https://repo.cooluc.com/mailbox.repo > /etc/yum.repos.d/mailbox.repo
+yum makecache
+yum install -y rpmdevtools devtoolset-10-gcc devtoolset-10-binutils devtoolset-10-runtime scl-utils asciidoc bc bison elfutils-libelf-devel gcc gettext hostname m4 newt-devel net-tools openssl openssl-devel rsync xmlto dwarves libcap-devel ncurses-devel pciutils-devel sed tar
 
 # Build Kernel
 if [ $NEW_VERSION = y ]; then
