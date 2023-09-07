@@ -1,11 +1,14 @@
 name: Linux Kernel 6.1 LTS
 
 on:
+  watch:
+    types: started
   schedule:
     - cron: 0 23 * * *
 
 jobs:
   build:
+    if: github.event.repository.owner.id == github.event.sender.id
     name: Build Linux Kernel
     runs-on: ubuntu-20.04
 
