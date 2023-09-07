@@ -163,7 +163,7 @@ Source3: cpupower.config
 
 # Patches.
 Patch0: tcp-bbr2.patch
-Patch1: add-lrng-v50.patch
+Patch1: add-lrng-v51.patch
 
 # Do not package the source tarball.
 NoSource: 0

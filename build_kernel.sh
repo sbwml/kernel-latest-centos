@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Check Linux Kernel Version
-yum install -y curl
 TAGS=$(curl -sk https://api.github.com/repos/sbwml/kernel-latest-centos/tags | grep "name")
 LATEST_VERSION=$(curl -s https://cdn.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc | awk '{print $2}' | grep -E ^linux-6.1 | grep tar.xz | sed 's/linux-//g;s/.tar.xz//g' | tail -n 1)
 if [[ "$TAGS" == *"$LATEST_VERSION"* ]]; then
