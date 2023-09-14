@@ -162,8 +162,8 @@ Source2: cpupower.service
 Source3: cpupower.config
 
 # Patches.
-Patch0: tcp-bbr2.patch
-Patch1: add-lrng-v51.patch
+Patch0: 0001-add-tcp_bbr2.patch
+Patch1: 0002-add-lrng-v51.patch
 
 # Do not package the source tarball.
 NoSource: 0
