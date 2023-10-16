@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Check Linux Kernel Version
+LATEST_VERSION=$(curl -s https://cdn.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc | awk '{print $2}' | grep -E ^linux-6.1 | grep tar.xz | sed 's/linux-//g;s/.tar.xz//g' | tail -n 1)
 if [ "$1" = "workflow_dispatch" ]; then
     NEW_VERSION=y
     echo $LATEST_VERSION > /VERSION
 else
     TAGS=$(curl -sk https://api.github.com/repos/sbwml/kernel-latest-centos/tags | grep "name")
-    LATEST_VERSION=$(curl -s https://cdn.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc | awk '{print $2}' | grep -E ^linux-6.1 | grep tar.xz | sed 's/linux-//g;s/.tar.xz//g' | tail -n 1)
     if [[ "$TAGS" == *"$LATEST_VERSION"* ]]; then
         echo -e " \n\e[1;32mlinux-$LATEST_VERSION is already the latest lts version.\e[0m\n"
         exit 0
