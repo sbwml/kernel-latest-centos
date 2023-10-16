@@ -89,6 +89,7 @@ jobs:
         username: ${{ secrets.ftp_username }}
         password: ${{ secrets.ftp_password }}
         local-dir: ${{ env.rootfs }}/x86_64/
+        server-dir: "7/x86_64/"
         dangerous-clean-slate: true
 
     - name: Upload FTP - SRPM
@@ -99,6 +100,7 @@ jobs:
         username: ${{ secrets.ftp_username }}
         password: ${{ secrets.ftp_password }}
         local-dir: ${{ env.rootfs }}/SRPMS/
+        server-dir: "7/SRPMS/"
         dangerous-clean-slate: false
 
     - name: Create metadata
