@@ -74,6 +74,11 @@ jobs:
         token: ${{ secrets.workflow_token }}
         artifacts: ${{ env.rootfs }}/rpm/*
 
+    - name: Set user groups
+      if: env.new_version == 'true'
+      run: |
+        sudo chown -R runner.runner ${{ env.rootfs }}/x86_64 ${{ env.rootfs }}/SRPMS
+
     - name: Upload FTP - RPM
       if: env.new_version == 'true'
       uses: sbwml/FTP-Deploy-Action@master
