@@ -1,14 +1,19 @@
 #!/bin/bash
 
 # Check Linux Kernel Version
-TAGS=$(curl -sk https://api.github.com/repos/sbwml/kernel-latest-centos/tags | grep "name")
-LATEST_VERSION=$(curl -s https://cdn.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc | awk '{print $2}' | grep -E ^linux-6.1 | grep tar.xz | sed 's/linux-//g;s/.tar.xz//g' | tail -n 1)
-if [[ "$TAGS" == *"$LATEST_VERSION"* ]]; then
-    echo -e " \n\e[1;32mlinux-$LATEST_VERSION is already the latest lts version.\e[0m\n"
-    exit 0
-else
+if [ "$1" = "workflow_dispatch" ]; then
     NEW_VERSION=y
     echo $LATEST_VERSION > /VERSION
+else
+    TAGS=$(curl -sk https://api.github.com/repos/sbwml/kernel-latest-centos/tags | grep "name")
+    LATEST_VERSION=$(curl -s https://cdn.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc | awk '{print $2}' | grep -E ^linux-6.1 | grep tar.xz | sed 's/linux-//g;s/.tar.xz//g' | tail -n 1)
+    if [[ "$TAGS" == *"$LATEST_VERSION"* ]]; then
+        echo -e " \n\e[1;32mlinux-$LATEST_VERSION is already the latest lts version.\e[0m\n"
+        exit 0
+    else
+        NEW_VERSION=y
+        echo $LATEST_VERSION > /VERSION
+    fi
 fi
 
 # Setting up the environment
@@ -48,6 +53,8 @@ if [ $NEW_VERSION = y ]; then
         mkdir /rpm
         cp -a RPMS/x86_64/*.rpm /rpm
         cp -a SRPMS/*.rpm /rpm
+        cp -a RPMS/x86_64 /x86_64
+        cp -a SRPMS /SRPMS
     popd
     cd /
     tar zcvf rpm.tar.gz rpm
