@@ -49,6 +49,7 @@ if [ $NEW_VERSION = y ]; then
                 \cp .config ../../../SOURCES/config-$LATEST_VERSION-x86_64
             popd
             rpmbuild -ba SPECS/kernel-$LATEST_VERSION.spec
+            [ "$?" = 1 ] && exit 1
         fi
         mkdir /rpm
         cp -a RPMS/x86_64/*.rpm /rpm
