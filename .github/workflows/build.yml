@@ -1,0 +1,107 @@
+name: Manually
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    name: Build Linux Kernel
+    runs-on: ubuntu-20.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@main
+
+    - name: Set timezone & hostname
+      run: |
+        sudo timedatectl set-timezone 'Asia/Shanghai'
+        sudo hostnamectl set-hostname "builder"
+
+    - name: Show system
+      run: |
+        lscpu
+        free -h
+
+    - name: Free disk space
+      run: |
+        sudo docker image prune -a -f
+        sudo systemctl stop docker
+        sudo snap set system refresh.retain=2
+        sudo apt-get -y purge firefox clang* ghc* google* llvm* mono* mongo* mysql* php*
+        sudo apt-get -y autoremove --purge
+        sudo apt-get clean
+        sudo rm -rf /etc/mysql /etc/php /usr/lib/jvm /usr/libexec/docker /usr/local /usr/src/* /var/lib/docker /var/lib/gems /var/lib/mysql /var/lib/snapd /etc/skel /opt/{microsoft,az,hostedtoolcache,cni,mssql-tools,pipx} /usr/share/{az*,dotnet,swift,miniconda,gradle*,java,kotlinc,ri,sbt}
+        df -Th
+
+    - name: Init centos rootfs
+      run: |
+        wget https://github.com/sbwml/kernel-latest-centos/releases/download/rootfs/rootfs.tar.xz >/dev/null 2>&1
+        tar xf rootfs.tar.xz && rm -f rootfs.tar.xz
+        echo "rootfs=$(pwd)/rootfs" >> "$GITHUB_ENV"
+        sudo mount -o bind /dev rootfs/dev
+        sudo mount -t proc /proc rootfs/proc
+
+    - name: Build Linux Kernel
+      run: |
+        sudo cp -a build_kernel.sh ${{ env.rootfs }}
+        sudo cp -a config ${{ env.rootfs }}/root
+        sudo cp -a kernel.spec ${{ env.rootfs }}/root
+        sudo cp -a src ${{ env.rootfs }}/root
+        sudo chroot ${{ env.rootfs }} /bin/bash /build_kernel.sh workflow_dispatch
+        if [ -f ${{ env.rootfs }}/VERSION ]; then
+            echo 'kernel_version<<EOF' >> $GITHUB_ENV
+            cat ${{ env.rootfs }}/VERSION >> $GITHUB_ENV
+            echo 'EOF' >> $GITHUB_ENV
+            echo "new_version=true" >> $GITHUB_ENV
+        fi
+
+    - name: Upload Artifacts
+      if: env.new_version == 'true'
+      uses: actions/upload-artifact@v3
+      with:
+        name: kernel-${{ env.kernel_version }}
+        path: ${{ env.rootfs }}/rpm.tar.gz
+
+    - name: Create release
+      if: env.new_version == 'true'
+      uses: ncipollo/release-action@v1.11.1
+      with:
+        name: kernel-${{ env.kernel_version }}
+        allowUpdates: true
+        tag: ${{ env.kernel_version }}
+        commit: main
+        replacesArtifacts: true
+        token: ${{ secrets.workflow_token }}
+        artifacts: ${{ env.rootfs }}/rpm/*
+
+    - name: Set user groups
+      if: env.new_version == 'true'
+      run: |
+        sudo chown -R runner.runner ${{ env.rootfs }}/x86_64 ${{ env.rootfs }}/SRPMS
+
+    - name: Upload FTP - RPM
+      if: env.new_version == 'true'
+      uses: sbwml/FTP-Deploy-Action@master
+      with:
+        server: ${{ secrets.ftp_address }}
+        username: ${{ secrets.ftp_username }}
+        password: ${{ secrets.ftp_password }}
+        local-dir: ${{ env.rootfs }}/x86_64/
+        server-dir: "7/x86_64/"
+        dangerous-clean-slate: true
+
+    - name: Upload FTP - SRPM
+      if: env.new_version == 'true'
+      uses: sbwml/FTP-Deploy-Action@master
+      with:
+        server: ${{ secrets.ftp_address }}
+        username: ${{ secrets.ftp_username }}
+        password: ${{ secrets.ftp_password }}
+        local-dir: ${{ env.rootfs }}/SRPMS/
+        server-dir: "7/SRPMS/"
+        dangerous-clean-slate: false
+
+    - name: Create metadata
+      if: env.new_version == 'true'
+      run: |
+        sshpass -p ${{ secrets.server_password }} ssh -o StrictHostKeyChecking=no root@${{ secrets.ftp_address }} >/dev/null 2>&1
+        sshpass -p ${{ secrets.server_password }} ssh root@${{ secrets.ftp_address }} "/opt/sbin/create_metadata"
