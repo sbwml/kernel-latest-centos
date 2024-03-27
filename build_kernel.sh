@@ -20,7 +20,7 @@ fi
 yum install -y centos-release-scl-rh centos-release-scl
 curl -s https://repo.cooluc.com/mailbox.repo > /etc/yum.repos.d/mailbox.repo
 yum makecache
-yum install -y rpmdevtools devtoolset-10-gcc devtoolset-10-binutils devtoolset-10-runtime scl-utils asciidoc bc bison elfutils-libelf-devel gcc gettext hostname m4 newt-devel net-tools openssl openssl-devel rsync xmlto dwarves libcap-devel ncurses-devel pciutils-devel sed tar
+yum install -y rpmdevtools devtoolset-10-gcc devtoolset-10-binutils devtoolset-10-runtime scl-utils asciidoc bc bison elfutils-libelf-devel gcc gettext hostname m4 newt-devel net-tools openssl openssl-devel python3 rsync xmlto dwarves libcap-devel ncurses-devel pciutils-devel sed tar
 
 # Build Kernel
 if [ $NEW_VERSION = y ]; then
