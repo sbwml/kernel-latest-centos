@@ -164,6 +164,7 @@ Source3: cpupower.config
 # Patches.
 Patch0: 0001-backport-tcp_bbr3.patch
 Patch1: 0002-add-lrng-v52.patch
+Patch2: 0003-tools-resolve_btfids-Include-linux-types.h.patch
 
 # Do not package the source tarball.
 NoSource: 0
@@ -298,6 +299,7 @@ pushd linux-%{version}-%{release}.%{_target_cpu} > /dev/null
 
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 # Purge the source tree of all unrequired dot-files.
 %{_bindir}/find -name '.*' -type f | %{_bindir}/xargs --no-run-if-empty %{__rm} -rf
