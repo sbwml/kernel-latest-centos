@@ -48,6 +48,7 @@ jobs:
         sudo cp -a config ${{ env.rootfs }}/root
         sudo cp -a kernel.spec ${{ env.rootfs }}/root
         sudo cp -a src ${{ env.rootfs }}/root
+        sudo cp -a repo/devtoolset-12.repo ${{ env.rootfs }}/etc/yum.repos.d
         sudo chroot ${{ env.rootfs }} /bin/bash /build_kernel.sh
         if [ -f ${{ env.rootfs }}/VERSION ]; then
             echo 'kernel_version<<EOF' >> $GITHUB_ENV

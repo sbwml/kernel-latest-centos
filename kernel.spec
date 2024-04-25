@@ -34,8 +34,6 @@
 %define with_perf    0
 # tools
 %define with_tools   %{?_without_tools:   0} %{?!_without_tools:   1}
-# gcc9
-%define with_gcc10    %{?_without_gcc9:    0} %{?!_without_gcc9:    1}
 
 # These architectures install vdso/ directories.
 %define vdso_arches x86_64
@@ -136,9 +134,7 @@ AutoProv: yes
 #
 # List the packages used during the kernel build.
 #
-%if %{with_gcc10}
-BuildRequires: devtoolset-10-gcc, devtoolset-10-binutils, devtoolset-10-runtime, scl-utils
-%endif
+BuildRequires: devtoolset-12-gcc, devtoolset-12-binutils, devtoolset-12-runtime, scl-utils
 BuildRequires: asciidoc, bash >= 2.03, bc, bison, binutils >= 2.12, diffutils
 BuildRequires: elfutils-libelf-devel, findutils, gawk, gcc >= 3.4.2, gzip
 BuildRequires: hostname, m4, make >= 3.78, module-init-tools, net-tools
@@ -287,9 +283,7 @@ libraries, derived from the kernel source.
 %define debug_package %{nil}
 
 %prep
-%if %{with_gcc10}
-. /opt/rh/devtoolset-10/enable
-%endif
+. /opt/rh/devtoolset-12/enable
 
 %setup -q -n %{name}-%{version} -c
 %{__mv} linux-%{LKAver} linux-%{version}-%{release}.%{_target_cpu}
@@ -321,9 +315,7 @@ done
 popd > /dev/null
 
 %build
-%if %{with_gcc10}
-. /opt/rh/devtoolset-10/enable
-%endif
+. /opt/rh/devtoolset-12/enable
 
 BuildKernel() {
     Flavour=$1
@@ -561,9 +553,7 @@ popd > /dev/null
 popd > /dev/null
 
 %install
-%if %{with_gcc10}
-. /opt/rh/devtoolset-10/enable
-%endif
+. /opt/rh/devtoolset-12/enable
 
 pushd linux-%{version}-%{release}.%{_target_cpu} > /dev/null
 
