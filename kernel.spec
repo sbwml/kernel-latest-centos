@@ -160,6 +160,11 @@ Source3: cpupower.config
 # Patches.
 Patch0: 0001-backport-tcp_bbr3.patch
 Patch1: 0002-add-lrng-v52.patch
+Patch2: 901-v6.8-cache-enforce-cache-groups.patch
+Patch3: 902-v6.8-netns-ipv4-reorganize-netns_ipv4-fast-path-variables.patch
+Patch4: 903-v6.8-net-device-reorganize-net_device-fast-path-variables.patch
+Patch5: 904-v6.8-tcp-reorganize-tcp_sock-fast-path-variables.patch
+Patch6: 905-v6.8-tcp-move-tp-scaling_ratio-to-tcp_sock_read_txrx-grou.patch
 
 # Do not package the source tarball.
 NoSource: 0
@@ -284,6 +289,7 @@ libraries, derived from the kernel source.
 
 %prep
 . /opt/rh/devtoolset-12/enable
+export LLVM=1 LLVM_IAS=1 CC=clang
 
 %setup -q -n %{name}-%{version} -c
 %{__mv} linux-%{LKAver} linux-%{version}-%{release}.%{_target_cpu}
@@ -292,6 +298,11 @@ pushd linux-%{version}-%{release}.%{_target_cpu} > /dev/null
 
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
 
 # Purge the source tree of all unrequired dot-files.
 %{_bindir}/find -name '.*' -type f | %{_bindir}/xargs --no-run-if-empty %{__rm} -rf
@@ -316,6 +327,7 @@ popd > /dev/null
 
 %build
 . /opt/rh/devtoolset-12/enable
+export LLVM=1 LLVM_IAS=1 CC=clang
 
 BuildKernel() {
     Flavour=$1
@@ -554,6 +566,7 @@ popd > /dev/null
 
 %install
 . /opt/rh/devtoolset-12/enable
+export LLVM=1 LLVM_IAS=1 CC=clang
 
 pushd linux-%{version}-%{release}.%{_target_cpu} > /dev/null
 

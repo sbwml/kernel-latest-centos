@@ -22,6 +22,9 @@ curl -s https://repo.cooluc.com/mailbox.repo > /etc/yum.repos.d/mailbox.repo
 yum makecache
 yum install -y rpmdevtools devtoolset-12-gcc devtoolset-12-binutils devtoolset-12-runtime scl-utils asciidoc bc bison elfutils-libelf-devel gcc gettext hostname m4 newt-devel net-tools openssl openssl-devel python3 rsync xmlto dwarves libcap-devel ncurses-devel pciutils-devel sed tar
 
+# clang
+export PATH="/opt/clang/bin:$PATH"
+
 # Build Kernel
 if [ $NEW_VERSION = y ]; then
     # goto root
@@ -44,8 +47,8 @@ if [ $NEW_VERSION = y ]; then
         if [ "$?" = 1 ]; then
             pushd BUILD/kernel-$LATEST_VERSION/linux-$LATEST_VERSION-*
                 [ -f newoptions-el7-x86_64.txt ] && cat newoptions-el7-x86_64.txt >> .config
-                . /opt/rh/devtoolset-10/enable
-                make -s ARCH=x86_64 oldconfig
+                . /opt/rh/devtoolset-12/enable
+                make -s ARCH=x86_64 oldconfig LLVM=1 LLVM_IAS=1
                 \cp .config ../../../SOURCES/config-$LATEST_VERSION-x86_64
             popd
             rpmbuild -ba SPECS/kernel-$LATEST_VERSION.spec

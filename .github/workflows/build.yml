@@ -1,16 +1,13 @@
-name: Manually
+name: Build
 
 on: workflow_dispatch
 
 jobs:
   build:
     name: Build Linux Kernel
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@main
-
     - name: Set timezone & hostname
       run: |
         sudo timedatectl set-timezone 'Asia/Shanghai'
@@ -18,19 +15,23 @@ jobs:
 
     - name: Show system
       run: |
-        lscpu
+        echo -e "\n\e[1;32mCPU:\e[0m"
+        echo "$(grep 'model name' /proc/cpuinfo | head -1 | awk -F ': ' '{print $2}') ($(grep 'cpu MHz' /proc/cpuinfo | head -1 | awk -F ': ' '{print $2}')MHz) x $(grep processor /proc/cpuinfo  | wc -l)"
+        echo -e "\n\e[1;32mMemory:\e[0m"
         free -h
+        echo -e "\n\e[1;32mStorage:\e[0m"
+        df -Th / /mnt
+        echo -e "\n\e[1;32mSystem:\e[0m"
+        lsb_release -a
+        echo -e "\n\e[1;32mKernel:\e[0m"
+        uname -a
+        echo
 
     - name: Free disk space
-      run: |
-        sudo docker image prune -a -f
-        sudo systemctl stop docker
-        sudo snap set system refresh.retain=2
-        sudo apt-get -y purge firefox clang* ghc* google* llvm* mono* mongo* mysql* php*
-        sudo apt-get -y autoremove --purge
-        sudo apt-get clean
-        sudo rm -rf /etc/mysql /etc/php /usr/lib/jvm /usr/libexec/docker /usr/local /usr/src/* /var/lib/docker /var/lib/gems /var/lib/mysql /var/lib/snapd /etc/skel /opt/{microsoft,az,hostedtoolcache,cni,mssql-tools,pipx} /usr/share/{az*,dotnet,swift,miniconda,gradle*,java,kotlinc,ri,sbt}
-        df -Th
+      uses: sbwml/actions@free-disk
+
+    - name: Checkout
+      uses: actions/checkout@main
 
     - name: Init centos rootfs
       run: |
@@ -40,6 +41,9 @@ jobs:
         sudo mount -o bind /dev rootfs/dev
         sudo mount -t proc /proc rootfs/proc
 
+    - name: Install LLVM
+      uses: sbwml/actions@install-llvm
+
     - name: Build Linux Kernel
       run: |
         sudo cp -a build_kernel.sh ${{ env.rootfs }}
@@ -47,6 +51,7 @@ jobs:
         sudo cp -a kernel.spec ${{ env.rootfs }}/root
         sudo cp -a src ${{ env.rootfs }}/root
         sudo cp -a repo/devtoolset-12.repo ${{ env.rootfs }}/etc/yum.repos.d
+        sudo cp -a /opt/clang ${{ env.rootfs }}/opt
         sudo chroot ${{ env.rootfs }} /bin/bash /build_kernel.sh workflow_dispatch
         if [ -f ${{ env.rootfs }}/VERSION ]; then
             echo 'kernel_version<<EOF' >> $GITHUB_ENV
@@ -57,14 +62,14 @@ jobs:
 
     - name: Upload Artifacts
       if: env.new_version == 'true'
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: kernel-${{ env.kernel_version }}
         path: ${{ env.rootfs }}/rpm.tar.gz
 
     - name: Create release
       if: env.new_version == 'true'
-      uses: ncipollo/release-action@v1.11.1
+      uses: ncipollo/release-action@v1.14.0
       with:
         name: kernel-${{ env.kernel_version }}
         allowUpdates: true

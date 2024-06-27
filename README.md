@@ -6,7 +6,9 @@
 ### Features:
 - **Google's BBRv3 TCP congestion control.**
 - **Linux Random Number Generator (LRNG v52).**
+- **Backport Linux 6.8 Network Optimizations.**
 - **Enable eBPF support.**
+- **Enable CONFIG_LTO_CLANG_FULL**
 
 ### Install:
 
