@@ -165,6 +165,7 @@ Patch3: 902-v6.8-netns-ipv4-reorganize-netns_ipv4-fast-path-variables.patch
 Patch4: 903-v6.8-net-device-reorganize-net_device-fast-path-variables.patch
 Patch5: 904-v6.8-tcp-reorganize-tcp_sock-fast-path-variables.patch
 Patch6: 905-v6.8-tcp-move-tp-scaling_ratio-to-tcp_sock_read_txrx-grou.patch
+Patch7: 0003-drivers-staging-add-tcp-brutal.patch
 
 # Do not package the source tarball.
 NoSource: 0
@@ -303,6 +304,7 @@ pushd linux-%{version}-%{release}.%{_target_cpu} > /dev/null
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 # Purge the source tree of all unrequired dot-files.
 %{_bindir}/find -name '.*' -type f | %{_bindir}/xargs --no-run-if-empty %{__rm} -rf

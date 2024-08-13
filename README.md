@@ -5,6 +5,7 @@
 
 ### Features:
 - **Google's BBRv3 TCP congestion control.**
+- **Hysteria's TCP Brutal congestion control.**
 - **Linux Random Number Generator (LRNG v52).**
 - **Backport Linux 6.8 Network Optimizations.**
 - **Enable eBPF support.**
