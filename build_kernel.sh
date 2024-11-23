@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Check Linux Kernel Version
-LATEST_VERSION=$(curl -s https://cdn.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc | awk '{print $2}' | grep -E ^linux-6.6 | grep tar.xz | sed 's/linux-//g;s/.tar.xz//g' | tail -n 1)
+LATEST_VERSION=$(curl -s https://cdn.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc | awk '{print $2}' | grep -E ^linux-6.12 | grep tar.xz | sed 's/linux-//g;s/.tar.xz//g' | tail -n 1)
 if [ "$1" = "workflow_dispatch" ]; then
     NEW_VERSION=y
     echo $LATEST_VERSION > /VERSION

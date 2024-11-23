@@ -1,4 +1,4 @@
-name: Linux Kernel 6.6 LTS
+name: Linux Kernel 6.12 LTS
 
 on:
   schedule:
@@ -44,7 +44,7 @@ jobs:
         sudo mount -t proc /proc rootfs/proc
 
     - name: Install LLVM
-      uses: sbwml/actions@install-llvm
+      uses: sbwml/actions@install-llvm-19
 
     - name: Build Linux Kernel
       run: |

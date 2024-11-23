@@ -1,7 +1,7 @@
-From 06ff9d58989619a2f8920a638f4c431dd0474738 Mon Sep 17 00:00:00 2001
+From 20db57087a5976fec49d400b4293d97e68a354dc Mon Sep 17 00:00:00 2001
 From: sbwml <admin@cooluc.com>
-Date: Tue, 13 Aug 2024 23:35:46 +0800
-Subject: [PATCH] drivers/staging: add tcp brutal
+Date: Sat, 23 Nov 2024 22:17:39 +0800
+Subject: [PATCH 03/13] drivers/staging: add tcp brutal
 
 Signed-off-by: sbwml <admin@cooluc.com>
 ---
@@ -16,30 +16,25 @@ Signed-off-by: sbwml <admin@cooluc.com>
  create mode 100644 drivers/staging/tcp_brutal/brutal.c
 
 diff --git a/drivers/staging/Kconfig b/drivers/staging/Kconfig
-index f9aef39ca..da287e195 100644
+index 3fb68d60d..607bf619b 100644
 --- a/drivers/staging/Kconfig
 +++ b/drivers/staging/Kconfig
-@@ -24,6 +24,8 @@ menuconfig STAGING
+@@ -64,4 +64,6 @@ source "drivers/staging/fieldbus/Kconfig"
  
- if STAGING
+ source "drivers/staging/vme_user/Kconfig"
  
 +source "drivers/staging/tcp_brutal/Kconfig"
 +
- source "drivers/staging/wlan-ng/Kconfig"
- 
- source "drivers/staging/olpc_dcon/Kconfig"
+ endif # STAGING
 diff --git a/drivers/staging/Makefile b/drivers/staging/Makefile
-index ffa70dda4..3ae8a94a7 100644
+index c977aa13f..d71f20627 100644
 --- a/drivers/staging/Makefile
 +++ b/drivers/staging/Makefile
-@@ -3,6 +3,7 @@
- 
- obj-y				+= media/
- obj-$(CONFIG_PRISM2_USB)	+= wlan-ng/
-+obj-$(CONFIG_TCP_BRUTAL)		+= tcp_brutal/
- obj-$(CONFIG_FB_OLPC_DCON)	+= olpc_dcon/
- obj-$(CONFIG_RTL8192U)		+= rtl8192u/
- obj-$(CONFIG_RTL8192E)		+= rtl8192e/
+@@ -21,3 +21,4 @@ obj-$(CONFIG_GREYBUS)		+= greybus/
+ obj-$(CONFIG_BCM2835_VCHIQ)	+= vc04_services/
+ obj-$(CONFIG_XIL_AXIS_FIFO)	+= axis-fifo/
+ obj-$(CONFIG_FIELDBUS_DEV)     += fieldbus/
++obj-$(CONFIG_TCP_BRUTAL)	+= tcp_brutal/
 diff --git a/drivers/staging/tcp_brutal/Kconfig b/drivers/staging/tcp_brutal/Kconfig
 new file mode 100644
 index 000000000..b16f25d0b

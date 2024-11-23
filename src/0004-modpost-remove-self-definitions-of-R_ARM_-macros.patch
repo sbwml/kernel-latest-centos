@@ -1,0 +1,93 @@
+From f836de7cf149ecb8b1aee11cb8155fbb4b976a10 Mon Sep 17 00:00:00 2001
+From: sbwml <admin@cooluc.com>
+Date: Sat, 23 Nov 2024 22:18:00 +0800
+Subject: [PATCH 04/13] modpost: remove self definitions of R_ARM_* macros
+
+Signed-off-by: sbwml <admin@cooluc.com>
+---
+ scripts/mod/modpost.c | 67 -------------------------------------------
+ 1 file changed, 67 deletions(-)
+
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 107393a8c..f230936a9 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -1175,75 +1175,8 @@ static Elf_Addr addend_arm_rel(void *loc, Elf_Sym *sym, unsigned int r_type)
+ 	case R_ARM_REL32:
+ 		inst = TO_NATIVE(*(uint32_t *)loc);
+ 		return inst + sym->st_value;
+-	case R_ARM_MOVW_ABS_NC:
+-	case R_ARM_MOVT_ABS:
+-		inst = TO_NATIVE(*(uint32_t *)loc);
+-		offset = sign_extend32(((inst & 0xf0000) >> 4) | (inst & 0xfff),
+-				       15);
+-		return offset + sym->st_value;
+ 	case R_ARM_PC24:
+-	case R_ARM_CALL:
+-	case R_ARM_JUMP24:
+-		inst = TO_NATIVE(*(uint32_t *)loc);
+-		offset = sign_extend32((inst & 0x00ffffff) << 2, 25);
+-		return offset + sym->st_value + 8;
+-	case R_ARM_THM_MOVW_ABS_NC:
+-	case R_ARM_THM_MOVT_ABS:
+-		upper = TO_NATIVE(*(uint16_t *)loc);
+-		lower = TO_NATIVE(*((uint16_t *)loc + 1));
+-		offset = sign_extend32(((upper & 0x000f) << 12) |
+-				       ((upper & 0x0400) << 1) |
+-				       ((lower & 0x7000) >> 4) |
+-				       (lower & 0x00ff),
+-				       15);
+-		return offset + sym->st_value;
+-	case R_ARM_THM_JUMP19:
+-		/*
+-		 * Encoding T3:
+-		 * S     = upper[10]
+-		 * imm6  = upper[5:0]
+-		 * J1    = lower[13]
+-		 * J2    = lower[11]
+-		 * imm11 = lower[10:0]
+-		 * imm32 = SignExtend(S:J2:J1:imm6:imm11:'0')
+-		 */
+-		upper = TO_NATIVE(*(uint16_t *)loc);
+-		lower = TO_NATIVE(*((uint16_t *)loc + 1));
+-
+-		sign = (upper >> 10) & 1;
+-		j1 = (lower >> 13) & 1;
+-		j2 = (lower >> 11) & 1;
+-		offset = sign_extend32((sign << 20) | (j2 << 19) | (j1 << 18) |
+-				       ((upper & 0x03f) << 12) |
+-				       ((lower & 0x07ff) << 1),
+-				       20);
+-		return offset + sym->st_value + 4;
+ 	case R_ARM_THM_PC22:
+-	case R_ARM_THM_JUMP24:
+-		/*
+-		 * Encoding T4:
+-		 * S     = upper[10]
+-		 * imm10 = upper[9:0]
+-		 * J1    = lower[13]
+-		 * J2    = lower[11]
+-		 * imm11 = lower[10:0]
+-		 * I1    = NOT(J1 XOR S)
+-		 * I2    = NOT(J2 XOR S)
+-		 * imm32 = SignExtend(S:I1:I2:imm10:imm11:'0')
+-		 */
+-		upper = TO_NATIVE(*(uint16_t *)loc);
+-		lower = TO_NATIVE(*((uint16_t *)loc + 1));
+-
+-		sign = (upper >> 10) & 1;
+-		j1 = (lower >> 13) & 1;
+-		j2 = (lower >> 11) & 1;
+-		offset = sign_extend32((sign << 24) |
+-				       ((~(j1 ^ sign) & 1) << 23) |
+-				       ((~(j2 ^ sign) & 1) << 22) |
+-				       ((upper & 0x03ff) << 12) |
+-				       ((lower & 0x07ff) << 1),
+-				       24);
+-		return offset + sym->st_value + 4;
+ 	}
+ 
+ 	return (Elf_Addr)(-1);
+-- 
+2.43.5
+

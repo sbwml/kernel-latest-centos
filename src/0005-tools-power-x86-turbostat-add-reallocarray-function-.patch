@@ -1,0 +1,34 @@
+From 107f71de8d18870375dde6a23f299ee40459b2d6 Mon Sep 17 00:00:00 2001
+From: sbwml <admin@cooluc.com>
+Date: Sat, 23 Nov 2024 22:18:47 +0800
+Subject: [PATCH 05/13] tools: power: x86: turbostat: add reallocarray function
+ definition
+
+Signed-off-by: sbwml <admin@cooluc.com>
+---
+ tools/power/x86/turbostat/turbostat.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/tools/power/x86/turbostat/turbostat.c b/tools/power/x86/turbostat/turbostat.c
+index 089220aaa..ca9759f89 100644
+--- a/tools/power/x86/turbostat/turbostat.c
++++ b/tools/power/x86/turbostat/turbostat.c
+@@ -1537,6 +1537,15 @@ unsigned int pmt_counter_get_width(const struct pmt_counter *p)
+ 	return (p->msb - p->lsb) + 1;
+ }
+ 
++void *reallocarray(void *ptr, size_t nmemb, size_t size) {
++	if (nmemb > 0 && SIZE_MAX / nmemb < size) {
++		errno = ENOMEM;
++		return NULL;
++	}
++
++	return realloc(ptr, nmemb * size);
++}
++
+ void pmt_counter_resize_(struct pmt_counter *pcounter, unsigned int new_size)
+ {
+ 	struct pmt_domain_info *new_mem;
+-- 
+2.43.5
+
