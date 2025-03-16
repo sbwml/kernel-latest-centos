@@ -1,4 +1,4 @@
-From f836de7cf149ecb8b1aee11cb8155fbb4b976a10 Mon Sep 17 00:00:00 2001
+From 5bf3e06609486133d95fae3efb9d138fcf99a34d Mon Sep 17 00:00:00 2001
 From: sbwml <admin@cooluc.com>
 Date: Sat, 23 Nov 2024 22:18:00 +0800
 Subject: [PATCH 04/13] modpost: remove self definitions of R_ARM_* macros
@@ -9,7 +9,7 @@ Signed-off-by: sbwml <admin@cooluc.com>
  1 file changed, 67 deletions(-)
 
 diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 107393a8c..f230936a9 100644
+index 971eda0c6..da7aba67d 100644
 --- a/scripts/mod/modpost.c
 +++ b/scripts/mod/modpost.c
 @@ -1175,75 +1175,8 @@ static Elf_Addr addend_arm_rel(void *loc, Elf_Sym *sym, unsigned int r_type)
@@ -89,5 +89,5 @@ index 107393a8c..f230936a9 100644
  
  	return (Elf_Addr)(-1);
 -- 
-2.43.5
+2.36.0
 

@@ -1,4 +1,4 @@
-From d16459fa72c68520956bd2d01095ff6970425a8f Mon Sep 17 00:00:00 2001
+From 69eea56d6ae0c8c4e5c49329768055d4fee9e23d Mon Sep 17 00:00:00 2001
 From: Mike Galbraith <umgwanakikbuti@gmail.com>
 Date: Sat, 27 Feb 2016 08:09:11 +0100
 Subject: [PATCH 06/13] drm/i915: Use preempt_disable/enable_rt() where
@@ -120,5 +120,5 @@ index 0b7f2134e..e6211f822 100644
  	return position;
  }
 -- 
-2.43.5
+2.36.0
 

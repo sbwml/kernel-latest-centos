@@ -1,4 +1,4 @@
-From c68cdd20a984b18527470d3d748903be3b9ced13 Mon Sep 17 00:00:00 2001
+From 69e5345017dba29d066c89cd4fbc3be438361257 Mon Sep 17 00:00:00 2001
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Date: Tue, 3 Oct 2023 21:37:21 +0200
 Subject: [PATCH 12/13] drm/i915/guc: Consider also RCU depth in busy loop.
@@ -31,5 +31,5 @@ index 57b903132..ff213b79b 100644
  	/*
  	 * FIXME: Have caller pass in if we are in an atomic context to avoid
 -- 
-2.43.5
+2.36.0
 

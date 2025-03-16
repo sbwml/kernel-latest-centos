@@ -1,4 +1,4 @@
-From d50836ef79eee46d3fcdd95c8e82cac2045cecac Mon Sep 17 00:00:00 2001
+From 957c2240d29b2b5200ed1bd4e1f15b7f225e04d6 Mon Sep 17 00:00:00 2001
 From: Mike Galbraith <umgwanakikbuti@gmail.com>
 Date: Sat, 27 Feb 2016 09:01:42 +0100
 Subject: [PATCH 07/13] drm/i915: Don't disable interrupts on PREEMPT_RT during
@@ -72,10 +72,10 @@ index 1b578cad2..90c4ac64f 100644
  	if (intel_vgpu_active(dev_priv))
  		goto out;
 diff --git a/drivers/gpu/drm/i915/display/intel_cursor.c b/drivers/gpu/drm/i915/display/intel_cursor.c
-index 9ad53e1cb..6cbe81a2f 100644
+index aeadb834d..41e5565ff 100644
 --- a/drivers/gpu/drm/i915/display/intel_cursor.c
 +++ b/drivers/gpu/drm/i915/display/intel_cursor.c
-@@ -895,13 +895,15 @@ intel_legacy_cursor_update(struct drm_plane *_plane,
+@@ -902,13 +902,15 @@ intel_legacy_cursor_update(struct drm_plane *_plane,
  		 */
  		intel_psr_wait_for_idle_locked(crtc_state);
  
@@ -93,8 +93,8 @@ index 9ad53e1cb..6cbe81a2f 100644
  	}
  
  	if (new_plane_state->uapi.visible) {
-@@ -911,7 +913,8 @@ intel_legacy_cursor_update(struct drm_plane *_plane,
- 		intel_plane_disable_arm(plane, crtc_state);
+@@ -918,7 +920,8 @@ intel_legacy_cursor_update(struct drm_plane *_plane,
+ 		intel_plane_disable_arm(NULL, plane, crtc_state);
  	}
  
 -	local_irq_enable();
@@ -124,5 +124,5 @@ index e6211f822..1dd02efc0 100644
  
  	finish_wait(wq, &wait);
 -- 
-2.43.5
+2.36.0
 
