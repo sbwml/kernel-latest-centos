@@ -44,7 +44,7 @@ jobs:
         sudo mount -t proc /proc rootfs/proc
 
     - name: Install LLVM
-      uses: sbwml/actions@install-llvm-19
+      uses: sbwml/actions@clang-20
 
     - name: Build Linux Kernel
       run: |

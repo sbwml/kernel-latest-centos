@@ -17,8 +17,8 @@
   
   ```shell
   curl https://repo.cooluc.com/mailbox.repo > /etc/yum.repos.d/mailbox.repo
-  yum makecache
-  yum install kernel
+  yum --enablerepo=mailbox-kernel makecache
+  yum install --enablerepo=mailbox-kernel kernel
   ```
 
 - **Mount BPF sysfs (Optional):**
