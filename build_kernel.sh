@@ -34,7 +34,8 @@ if [ $NEW_VERSION = y ]; then
     echo "* $DATE sbwml <admin@cooluc.com> - $LATEST_VERSION-1" >> kernel.spec
     echo "- Updated with the $LATEST_VERSION source tarball." >> kernel.spec
     echo "- [https://www.kernel.org/pub/linux/kernel/v6.x/ChangeLog-$LATEST_VERSION]" >> kernel.spec
-    sed -i "s/KERNEL_VERSION/$LATEST_VERSION/g" config kernel.spec
+    sed -i "s/KERNEL_VERSION/$LATEST_VERSION/g" config
+    sed -i "s/KERNEL_VERSION/$LATEST_VERSION/g" kernel.spec
     # src
     mkdir -pv rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
     cp kernel.spec rpmbuild/SPECS/kernel-$LATEST_VERSION.spec
