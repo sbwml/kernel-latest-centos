@@ -171,6 +171,7 @@ Patch9: 0010-drm-i915-gt-Use-spin_lock_irq-instead-of-local_irq_d.patch
 Patch10: 0011-drm-i915-Drop-the-irqs_disabled-check.patch
 Patch11: 0012-drm-i915-guc-Consider-also-RCU-depth-in-busy-loop.patch
 Patch12: 0013-Revert-drm-i915-Depend-on-PREEMPT_RT.patch
+Patch13: 991-mkbuild.patch
 
 # Do not package the source tarball.
 NoSource: 0
@@ -315,6 +316,7 @@ pushd linux-%{version}-%{release}.%{_target_cpu} > /dev/null
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
+%patch13 -p1
 
 # Purge the source tree of all unrequired dot-files.
 %{_bindir}/find -name '.*' -type f | %{_bindir}/xargs --no-run-if-empty %{__rm} -rf
