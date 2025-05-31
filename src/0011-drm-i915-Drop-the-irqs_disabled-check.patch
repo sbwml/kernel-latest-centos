@@ -1,4 +1,4 @@
-From 9a629acc015f1c855f3ee218452f43a4f844cf52 Mon Sep 17 00:00:00 2001
+From a890d1a2d59519b9c643de681453a4dab5a9248c Mon Sep 17 00:00:00 2001
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Date: Fri, 1 Oct 2021 20:01:03 +0200
 Subject: [PATCH 11/13] drm/i915: Drop the irqs_disabled() check
@@ -41,5 +41,5 @@ index 519e096c6..466b5ee8e 100644
  
  	/*
 -- 
-2.36.0
+2.43.5
 

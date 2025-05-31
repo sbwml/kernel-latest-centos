@@ -1,4 +1,4 @@
-From 65cc9f83f4bf5bdbc2a65fda07431a6342351755 Mon Sep 17 00:00:00 2001
+From 05a21b836c0d73660b233001ccefd21942bb6a97 Mon Sep 17 00:00:00 2001
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Date: Mon, 25 Oct 2021 15:05:18 +0200
 Subject: [PATCH 08/13] drm/i915: Don't check for atomic context on PREEMPT_RT
@@ -40,5 +40,5 @@ index 71bdc89bd..3f53c64e7 100644
  #else
  # define _WAIT_FOR_ATOMIC_CHECK(ATOMIC) do { } while (0)
 -- 
-2.36.0
+2.43.5
 

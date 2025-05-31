@@ -1,4 +1,4 @@
-From f5e592fc1bd9fcc165a4507dbe4d77e9fca18044 Mon Sep 17 00:00:00 2001
+From 510e609047811b367555c810fa9cfe9f5b62260c Mon Sep 17 00:00:00 2001
 From: sbwml <admin@cooluc.com>
 Date: Sat, 23 Nov 2024 22:17:24 +0800
 Subject: [PATCH 02/13] add lrng v57
@@ -11149,7 +11149,7 @@ index 000000000..c0d31a03d
 +
 +#endif /* _LRNG_H */
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 9803f10a0..88d1f4632 100644
+index e9bb1b4c5..203a8aac6 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -7,6 +7,7 @@
@@ -11160,7 +11160,7 @@ index 9803f10a0..88d1f4632 100644
  #include <linux/highmem.h>
  #include <linux/hrtimer_api.h>
  #include <linux/ktime_api.h>
-@@ -3613,6 +3614,8 @@ ttwu_stat(struct task_struct *p, int cpu, int wake_flags)
+@@ -3614,6 +3615,8 @@ ttwu_stat(struct task_struct *p, int cpu, int wake_flags)
  {
  	struct rq *rq;
  
@@ -11170,5 +11170,5 @@ index 9803f10a0..88d1f4632 100644
  		return;
  
 -- 
-2.36.0
+2.43.5
 

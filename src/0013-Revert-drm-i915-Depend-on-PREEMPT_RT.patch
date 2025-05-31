@@ -1,4 +1,4 @@
-From 109ff1b95fe399e4c2ad11ef886d7425b0bbec4f Mon Sep 17 00:00:00 2001
+From d8fbcbdae06744551d615ead99ab748280c0c1fd Mon Sep 17 00:00:00 2001
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Date: Mon, 21 Feb 2022 17:59:14 +0100
 Subject: [PATCH 13/13] Revert "drm/i915: Depend on !PREEMPT_RT."
@@ -25,5 +25,5 @@ index 14ac351fd..610969840 100644
  	select INTERVAL_TREE
  	# we need shmfs for the swappable backing store, and in particular
 -- 
-2.36.0
+2.43.5
 

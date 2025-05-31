@@ -1,4 +1,4 @@
-From 0ece39b2c873c521f6494e0649702de6740c2c04 Mon Sep 17 00:00:00 2001
+From 44cd09d544de9fc29dbba4a1c63b3bc36617bdae Mon Sep 17 00:00:00 2001
 From: sbwml <admin@cooluc.com>
 Date: Sat, 23 Nov 2024 22:18:47 +0800
 Subject: [PATCH 05/13] tools: power: x86: turbostat: add reallocarray function
@@ -10,7 +10,7 @@ Signed-off-by: sbwml <admin@cooluc.com>
  1 file changed, 9 insertions(+)
 
 diff --git a/tools/power/x86/turbostat/turbostat.c b/tools/power/x86/turbostat/turbostat.c
-index 235e82fe7..787d211e6 100644
+index 12424bf08..b470b71a4 100644
 --- a/tools/power/x86/turbostat/turbostat.c
 +++ b/tools/power/x86/turbostat/turbostat.c
 @@ -1545,6 +1545,15 @@ unsigned int pmt_counter_get_width(const struct pmt_counter *p)
@@ -30,5 +30,5 @@ index 235e82fe7..787d211e6 100644
  {
  	struct pmt_domain_info *new_mem;
 -- 
-2.36.0
+2.43.5
 

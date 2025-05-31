@@ -1,4 +1,4 @@
-From 957c2240d29b2b5200ed1bd4e1f15b7f225e04d6 Mon Sep 17 00:00:00 2001
+From 892c13b554240c8ce136217a9692b32efbf164d9 Mon Sep 17 00:00:00 2001
 From: Mike Galbraith <umgwanakikbuti@gmail.com>
 Date: Sat, 27 Feb 2016 09:01:42 +0100
 Subject: [PATCH 07/13] drm/i915: Don't disable interrupts on PREEMPT_RT during
@@ -124,5 +124,5 @@ index e6211f822..1dd02efc0 100644
  
  	finish_wait(wq, &wait);
 -- 
-2.36.0
+2.43.5
 

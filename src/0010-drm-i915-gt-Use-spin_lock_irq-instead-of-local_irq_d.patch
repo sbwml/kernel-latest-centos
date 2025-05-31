@@ -1,4 +1,4 @@
-From 2cc5ac8f1ebefc76ca17365ffe5cb945a26e1488 Mon Sep 17 00:00:00 2001
+From daa082783560c5ea73bdf6a8db0ecb0db21dd138 Mon Sep 17 00:00:00 2001
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Date: Wed, 8 Sep 2021 19:03:41 +0200
 Subject: [PATCH 10/13] drm/i915/gt: Use spin_lock_irq() instead of
@@ -90,5 +90,5 @@ index 72090f52f..1c6bb872d 100644
  	}
  
 -- 
-2.36.0
+2.43.5
 

@@ -7,6 +7,6 @@
 -#define LINUX_COMPILE_BY	"${LINUX_COMPILE_BY}"
 -#define LINUX_COMPILE_HOST	"${LINUX_COMPILE_HOST}"
 +#define LINUX_COMPILE_BY	"mockbuild"
-+#define LINUX_COMPILE_HOST	"builder"
++#define LINUX_COMPILE_HOST	"builder-server"
  #define LINUX_COMPILER		"${CC_VERSION}, ${LD_VERSION}"
  EOF

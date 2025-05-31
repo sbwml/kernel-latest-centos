@@ -1,4 +1,4 @@
-From 872b207d4a9a009841223542e4bf8f6f89e5330a Mon Sep 17 00:00:00 2001
+From f413ef315165560b8a983f5d38b0e63bf260e462 Mon Sep 17 00:00:00 2001
 From: sbwml <admin@cooluc.com>
 Date: Sat, 23 Nov 2024 22:17:39 +0800
 Subject: [PATCH 03/13] drivers/staging: add tcp brutal
@@ -380,5 +380,5 @@ index 000000000..f73ca55bf
 +MODULE_DESCRIPTION("TCP Brutal");
 +MODULE_VERSION("1.0.3");
 -- 
-2.36.0
+2.43.5
 
