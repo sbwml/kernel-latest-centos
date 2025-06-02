@@ -163,15 +163,7 @@ Patch1: 0002-add-lrng-v57.patch
 Patch2: 0003-drivers-staging-add-tcp-brutal.patch
 Patch3: 0004-modpost-remove-self-definitions-of-R_ARM_-macros.patch
 Patch4: 0005-tools-power-x86-turbostat-add-reallocarray-function-.patch
-Patch5: 0006-drm-i915-Use-preempt_disable-enable_rt-where-recomme.patch
-Patch6: 0007-drm-i915-Don-t-disable-interrupts-on-PREEMPT_RT-duri.patch
-Patch7: 0008-drm-i915-Don-t-check-for-atomic-context-on-PREEMPT_R.patch
-Patch8: 0009-drm-i915-Disable-tracing-points-on-PREEMPT_RT.patch
-Patch9: 0010-drm-i915-gt-Use-spin_lock_irq-instead-of-local_irq_d.patch
-Patch10: 0011-drm-i915-Drop-the-irqs_disabled-check.patch
-Patch11: 0012-drm-i915-guc-Consider-also-RCU-depth-in-busy-loop.patch
-Patch12: 0013-Revert-drm-i915-Depend-on-PREEMPT_RT.patch
-Patch13: 991-mkbuild.patch
+Patch5: 991-mkbuild.patch
 
 # Do not package the source tarball.
 NoSource: 0
@@ -309,14 +301,6 @@ pushd linux-%{version}-%{release}.%{_target_cpu} > /dev/null
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
 
 # Purge the source tree of all unrequired dot-files.
 %{_bindir}/find -name '.*' -type f | %{_bindir}/xargs --no-run-if-empty %{__rm} -rf

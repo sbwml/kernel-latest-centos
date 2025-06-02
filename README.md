@@ -8,8 +8,7 @@
 - **Hysteria's TCP Brutal congestion control.**
 - **Linux Random Number Generator (LRNG v57).**
 - **Enable eBPF support.**
-- **Enable PREEMPT_RT**
-- **Enable CONFIG_LTO_CLANG_FULL**
+- **Enable Clang ThinLTO**
 
 ### Install:
 
