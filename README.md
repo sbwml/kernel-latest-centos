@@ -1,12 +1,12 @@
 <div align="center">
 <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/16485166/263130623-3f9e5945-cc0c-44b9-b6fc-f9de2b8b9ce6.png" height="150.0px"/>
-<h1 align="center">Linux 6.12 LTS Kernel for CentOS 7 / Red Hat 7</h1>
+<h1 align="center">Linux 6.18 LTS Kernel for CentOS 7 / Red Hat 7</h1>
 </div>
 
 ### Features:
 - **Google's BBRv3 TCP congestion control.**
 - **Hysteria's TCP Brutal congestion control.**
-- **Linux Random Number Generator (LRNG v57).**
+- **Linux Random Number Generator (LRNG v59).**
 - **Enable eBPF support.**
 - **Enable Clang ThinLTO**
 

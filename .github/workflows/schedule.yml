@@ -1,4 +1,4 @@
-name: Linux Kernel 6.12 LTS
+name: Linux Kernel 6.18 LTS - schedule
 
 on:
   schedule:

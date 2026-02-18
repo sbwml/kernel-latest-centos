@@ -1,4 +1,4 @@
-name: Build
+name: Linux Kernel 6.18 LTS
 
 on: workflow_dispatch
 

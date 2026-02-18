@@ -1,7 +1,7 @@
-From f413ef315165560b8a983f5d38b0e63bf260e462 Mon Sep 17 00:00:00 2001
+From 235a3e710f4125df07203ef94c779d6a927f7f01 Mon Sep 17 00:00:00 2001
 From: sbwml <admin@cooluc.com>
 Date: Sat, 23 Nov 2024 22:17:39 +0800
-Subject: [PATCH 03/13] drivers/staging: add tcp brutal
+Subject: [PATCH 3/5] drivers/staging: add tcp brutal
 
 Signed-off-by: sbwml <admin@cooluc.com>
 ---
@@ -9,31 +9,31 @@ Signed-off-by: sbwml <admin@cooluc.com>
  drivers/staging/Makefile            |   1 +
  drivers/staging/tcp_brutal/Kconfig  |   7 +
  drivers/staging/tcp_brutal/Makefile |   3 +
- drivers/staging/tcp_brutal/brutal.c | 316 ++++++++++++++++++++++++++++
+ drivers/staging/tcp_brutal/brutal.c | 316 ++++++++++++++++++++++++++++++++++++
  5 files changed, 329 insertions(+)
  create mode 100644 drivers/staging/tcp_brutal/Kconfig
  create mode 100644 drivers/staging/tcp_brutal/Makefile
  create mode 100644 drivers/staging/tcp_brutal/brutal.c
 
 diff --git a/drivers/staging/Kconfig b/drivers/staging/Kconfig
-index 3fb68d60d..607bf619b 100644
+index 075e775d3..ed85fb656 100644
 --- a/drivers/staging/Kconfig
 +++ b/drivers/staging/Kconfig
-@@ -64,4 +64,6 @@ source "drivers/staging/fieldbus/Kconfig"
+@@ -50,4 +50,6 @@ source "drivers/staging/vme_user/Kconfig"
  
- source "drivers/staging/vme_user/Kconfig"
+ source "drivers/staging/gpib/Kconfig"
  
 +source "drivers/staging/tcp_brutal/Kconfig"
 +
  endif # STAGING
 diff --git a/drivers/staging/Makefile b/drivers/staging/Makefile
-index c977aa13f..d71f20627 100644
+index e681e4035..c7c8098bf 100644
 --- a/drivers/staging/Makefile
 +++ b/drivers/staging/Makefile
-@@ -21,3 +21,4 @@ obj-$(CONFIG_GREYBUS)		+= greybus/
+@@ -14,3 +14,4 @@ obj-$(CONFIG_GREYBUS)		+= greybus/
  obj-$(CONFIG_BCM2835_VCHIQ)	+= vc04_services/
  obj-$(CONFIG_XIL_AXIS_FIFO)	+= axis-fifo/
- obj-$(CONFIG_FIELDBUS_DEV)     += fieldbus/
+ obj-$(CONFIG_GPIB)	 	+= gpib/
 +obj-$(CONFIG_TCP_BRUTAL)	+= tcp_brutal/
 diff --git a/drivers/staging/tcp_brutal/Kconfig b/drivers/staging/tcp_brutal/Kconfig
 new file mode 100644
@@ -380,5 +380,5 @@ index 000000000..f73ca55bf
 +MODULE_DESCRIPTION("TCP Brutal");
 +MODULE_VERSION("1.0.3");
 -- 
-2.43.5
+2.15.0
 

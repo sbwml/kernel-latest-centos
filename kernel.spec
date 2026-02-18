@@ -159,11 +159,12 @@ Source3: cpupower.config
 
 # Patches.
 Patch0: 0001-backport-tcp_bbr3.patch
-Patch1: 0002-add-lrng-v57.patch
+Patch1: 0002-add-lrng-v59.patch
 Patch2: 0003-drivers-staging-add-tcp-brutal.patch
 Patch3: 0004-modpost-remove-self-definitions-of-R_ARM_-macros.patch
 Patch4: 0005-tools-power-x86-turbostat-add-reallocarray-function-.patch
-Patch5: 991-mkbuild.patch
+Patch5: 900-fix-centos7-build.patch
+Patch6: 991-mkbuild.patch
 
 # Do not package the source tarball.
 NoSource: 0
@@ -301,6 +302,7 @@ pushd linux-%{version}-%{release}.%{_target_cpu} > /dev/null
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 # Purge the source tree of all unrequired dot-files.
 %{_bindir}/find -name '.*' -type f | %{_bindir}/xargs --no-run-if-empty %{__rm} -rf
@@ -606,7 +608,9 @@ DOCDIR=$RPM_BUILD_ROOT%{_datadir}/doc/%{name}-doc-%{version}
 %if %{with_tools}
 %ifarch x86_64
 %{__make} -s -C tools/power/cpupower DESTDIR=$RPM_BUILD_ROOT libdir=%{_libdir} mandir=%{_mandir} CPUFREQ_BENCH=false install
-%{__rm} -f %{buildroot}%{_libdir}/*.{a,la}
+%{__rm} -f $RPM_BUILD_ROOT%{_libdir}/*.{a,la}
+%{__rm} -f $RPM_BUILD_ROOT%{_sysconfdir}/cpupower-service.conf
+%{__rm} -f $RPM_BUILD_ROOT%{_libexecdir}/cpupower
 %find_lang cpupower
 mv cpupower.lang ../
 pushd tools/power/cpupower/debug/x86_64 > /dev/null
@@ -783,7 +787,7 @@ fi
 %files -n %{name}-tools-libs
 %defattr(-,root,root)
 %{_libdir}/libcpupower.so.1
-%{_libdir}/libcpupower.so.0.0.1
+%{_libdir}/libcpupower.so.1.0.1
 
 %files -n %{name}-tools-libs-devel
 %defattr(-,root,root)

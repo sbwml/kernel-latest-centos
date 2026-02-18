@@ -1,6 +1,8 @@
+diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
+index 2596f78e52ef..dd6b12ace1bc 100755
 --- a/scripts/mkcompile_h
 +++ b/scripts/mkcompile_h
-@@ -21,7 +21,7 @@ LD_VERSION=$(LC_ALL=C $LD -v | head -n1
+@@ -21,7 +21,7 @@ LD_VERSION=$(LC_ALL=C $LD -v | head -n1 |
  
  cat <<EOF
  #define UTS_MACHINE		"${UTS_MACHINE}"

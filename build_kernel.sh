@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Check Linux Kernel Version
-LATEST_VERSION=$(curl -s https://cdn.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc | awk '{print $2}' | grep -E ^linux-6.12 | grep tar.xz | sed 's/linux-//g;s/.tar.xz//g' | tail -n 1)
+LATEST_VERSION=$(curl -s https://cdn.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc | awk '{print $2}' | grep -E ^linux-6.18 | grep tar.xz | sed 's/linux-//g;s/.tar.xz//g' | tail -n 1)
 if [ "$1" = "workflow_dispatch" ]; then
     NEW_VERSION=y
     echo $LATEST_VERSION > /VERSION
@@ -20,9 +20,38 @@ fi
 yum install -y centos-release-scl-rh centos-release-scl
 curl -s https://repo.cooluc.com/mailbox.repo > /etc/yum.repos.d/mailbox.repo
 yum makecache
-yum install -y rpmdevtools devtoolset-12-gcc devtoolset-12-binutils devtoolset-12-runtime scl-utils asciidoc bc bison elfutils-libelf-devel gcc gettext hostname m4 newt-devel net-tools openssl openssl-devel python3 rsync xmlto dwarves libcap-devel ncurses-devel pciutils-devel sed tar
+yum install -y \
+  asciidoc \
+  bc \
+  bison \
+  devtoolset-12-binutils \
+  devtoolset-12-gcc \
+  devtoolset-12-runtime \
+  dwarves \
+  elfutils-libelf-devel \
+  gcc \
+  gettext \
+  hostname \
+  libcap-devel \
+  m4 \
+  make \
+  ncurses-devel \
+  net-tools \
+  newt-devel \
+  openssl \
+  openssl-devel \
+  pciutils-devel \
+  python3 \
+  rpmdevtools \
+  rsync \
+  scl-utils \
+  sed \
+  tar \
+  which \
+  xmlto
 
 # clang
+source /etc/profile
 export PATH="/opt/clang/bin:$PATH"
 
 # Build Kernel

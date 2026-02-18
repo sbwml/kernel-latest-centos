@@ -1,72 +1,72 @@
-From 510e609047811b367555c810fa9cfe9f5b62260c Mon Sep 17 00:00:00 2001
+From df05e49c52ab270f06e1692329d2c11fa39047c9 Mon Sep 17 00:00:00 2001
 From: sbwml <admin@cooluc.com>
-Date: Sat, 23 Nov 2024 22:17:24 +0800
-Subject: [PATCH 02/13] add lrng v57
+Date: Wed, 18 Feb 2026 21:01:02 +0800
+Subject: [PATCH 2/5] add lrng v59
 
 Signed-off-by: sbwml <admin@cooluc.com>
 ---
- crypto/drbg.c                                 |   16 +-
- drivers/char/Kconfig                          |    2 +
- drivers/char/Makefile                         |    5 +-
- drivers/char/lrng/Kconfig                     | 1017 +++++++++++++++++
- drivers/char/lrng/Makefile                    |   39 +
- drivers/char/lrng/lrng_definitions.h          |  163 +++
- drivers/char/lrng/lrng_drng_atomic.c          |  130 +++
- drivers/char/lrng/lrng_drng_atomic.h          |   23 +
- drivers/char/lrng/lrng_drng_chacha20.c        |  195 ++++
- drivers/char/lrng/lrng_drng_chacha20.h        |   42 +
- drivers/char/lrng/lrng_drng_drbg.c            |  215 ++++
- drivers/char/lrng/lrng_drng_drbg.h            |   13 +
- drivers/char/lrng/lrng_drng_kcapi.c           |  208 ++++
- drivers/char/lrng/lrng_drng_kcapi.h           |   13 +
- drivers/char/lrng/lrng_drng_mgr.c             |  742 ++++++++++++
- drivers/char/lrng/lrng_drng_mgr.h             |   86 ++
- drivers/char/lrng/lrng_es_aux.c               |  335 ++++++
- drivers/char/lrng/lrng_es_aux.h               |   44 +
- drivers/char/lrng/lrng_es_cpu.c               |  281 +++++
- drivers/char/lrng/lrng_es_cpu.h               |   17 +
- drivers/char/lrng/lrng_es_irq.c               |  730 ++++++++++++
- drivers/char/lrng/lrng_es_irq.h               |   24 +
- drivers/char/lrng/lrng_es_jent.c              |  358 ++++++
- drivers/char/lrng/lrng_es_jent.h              |   17 +
- drivers/char/lrng/lrng_es_krng.c              |  100 ++
- drivers/char/lrng/lrng_es_krng.h              |   17 +
- drivers/char/lrng/lrng_es_mgr.c               |  506 ++++++++
- drivers/char/lrng/lrng_es_mgr.h               |   56 +
- drivers/char/lrng/lrng_es_mgr_cb.h            |   87 ++
- drivers/char/lrng/lrng_es_sched.c             |  566 +++++++++
- drivers/char/lrng/lrng_es_sched.h             |   20 +
- drivers/char/lrng/lrng_es_timer_common.c      |  144 +++
- drivers/char/lrng/lrng_es_timer_common.h      |   83 ++
- drivers/char/lrng/lrng_hash_kcapi.c           |  140 +++
- drivers/char/lrng/lrng_health.c               |  447 ++++++++
- drivers/char/lrng/lrng_health.h               |   42 +
- drivers/char/lrng/lrng_interface_aux.c        |  210 ++++
- drivers/char/lrng/lrng_interface_dev.c        |   35 +
- drivers/char/lrng/lrng_interface_dev_common.c |  315 +++++
- drivers/char/lrng/lrng_interface_dev_common.h |   51 +
- drivers/char/lrng/lrng_interface_hwrand.c     |   68 ++
- drivers/char/lrng/lrng_interface_kcapi.c      |  129 +++
- .../char/lrng/lrng_interface_random_kernel.c  |  248 ++++
- .../char/lrng/lrng_interface_random_kernel.h  |   17 +
- .../char/lrng/lrng_interface_random_user.c    |  104 ++
- drivers/char/lrng/lrng_numa.c                 |  124 ++
- drivers/char/lrng/lrng_numa.h                 |   15 +
- drivers/char/lrng/lrng_proc.c                 |   74 ++
- drivers/char/lrng/lrng_proc.h                 |   15 +
- drivers/char/lrng/lrng_selftest.c             |  397 +++++++
- drivers/char/lrng/lrng_sha.h                  |   14 +
- drivers/char/lrng/lrng_sha1.c                 |   88 ++
- drivers/char/lrng/lrng_sha256.c               |   72 ++
- drivers/char/lrng/lrng_switch.c               |  286 +++++
- drivers/char/lrng/lrng_sysctl.c               |  139 +++
- drivers/char/lrng/lrng_sysctl.h               |   15 +
- drivers/char/lrng/lrng_testing.c              |  901 +++++++++++++++
- drivers/char/lrng/lrng_testing.h              |   85 ++
- include/crypto/drbg.h                         |    7 +
- include/linux/lrng.h                          |  251 ++++
- kernel/sched/core.c                           |    3 +
- 61 files changed, 10579 insertions(+), 7 deletions(-)
+ crypto/drbg.c                                    |   16 +-
+ drivers/char/Kconfig                             |    2 +
+ drivers/char/Makefile                            |    5 +-
+ drivers/char/lrng/Kconfig                        | 1017 ++++++++++++++++++++++
+ drivers/char/lrng/Makefile                       |   39 +
+ drivers/char/lrng/lrng_definitions.h             |  163 ++++
+ drivers/char/lrng/lrng_drng_atomic.c             |  130 +++
+ drivers/char/lrng/lrng_drng_atomic.h             |   23 +
+ drivers/char/lrng/lrng_drng_chacha20.c           |  210 +++++
+ drivers/char/lrng/lrng_drng_chacha20.h           |   49 ++
+ drivers/char/lrng/lrng_drng_drbg.c               |  215 +++++
+ drivers/char/lrng/lrng_drng_drbg.h               |   13 +
+ drivers/char/lrng/lrng_drng_kcapi.c              |  208 +++++
+ drivers/char/lrng/lrng_drng_kcapi.h              |   13 +
+ drivers/char/lrng/lrng_drng_mgr.c                |  742 ++++++++++++++++
+ drivers/char/lrng/lrng_drng_mgr.h                |   86 ++
+ drivers/char/lrng/lrng_es_aux.c                  |  335 +++++++
+ drivers/char/lrng/lrng_es_aux.h                  |   44 +
+ drivers/char/lrng/lrng_es_cpu.c                  |  281 ++++++
+ drivers/char/lrng/lrng_es_cpu.h                  |   17 +
+ drivers/char/lrng/lrng_es_irq.c                  |  730 ++++++++++++++++
+ drivers/char/lrng/lrng_es_irq.h                  |   24 +
+ drivers/char/lrng/lrng_es_jent.c                 |  358 ++++++++
+ drivers/char/lrng/lrng_es_jent.h                 |   17 +
+ drivers/char/lrng/lrng_es_krng.c                 |  100 +++
+ drivers/char/lrng/lrng_es_krng.h                 |   17 +
+ drivers/char/lrng/lrng_es_mgr.c                  |  528 +++++++++++
+ drivers/char/lrng/lrng_es_mgr.h                  |   56 ++
+ drivers/char/lrng/lrng_es_mgr_cb.h               |   87 ++
+ drivers/char/lrng/lrng_es_sched.c                |  566 ++++++++++++
+ drivers/char/lrng/lrng_es_sched.h                |   20 +
+ drivers/char/lrng/lrng_es_timer_common.c         |  144 +++
+ drivers/char/lrng/lrng_es_timer_common.h         |   83 ++
+ drivers/char/lrng/lrng_hash_kcapi.c              |  140 +++
+ drivers/char/lrng/lrng_health.c                  |  447 ++++++++++
+ drivers/char/lrng/lrng_health.h                  |   42 +
+ drivers/char/lrng/lrng_interface_aux.c           |  210 +++++
+ drivers/char/lrng/lrng_interface_dev.c           |   35 +
+ drivers/char/lrng/lrng_interface_dev_common.c    |  315 +++++++
+ drivers/char/lrng/lrng_interface_dev_common.h    |   51 ++
+ drivers/char/lrng/lrng_interface_hwrand.c        |   68 ++
+ drivers/char/lrng/lrng_interface_kcapi.c         |  129 +++
+ drivers/char/lrng/lrng_interface_random_kernel.c |  248 ++++++
+ drivers/char/lrng/lrng_interface_random_kernel.h |   17 +
+ drivers/char/lrng/lrng_interface_random_user.c   |  104 +++
+ drivers/char/lrng/lrng_numa.c                    |  124 +++
+ drivers/char/lrng/lrng_numa.h                    |   15 +
+ drivers/char/lrng/lrng_proc.c                    |   74 ++
+ drivers/char/lrng/lrng_proc.h                    |   15 +
+ drivers/char/lrng/lrng_selftest.c                |  397 +++++++++
+ drivers/char/lrng/lrng_sha.h                     |   14 +
+ drivers/char/lrng/lrng_sha1.c                    |   88 ++
+ drivers/char/lrng/lrng_sha256.c                  |   72 ++
+ drivers/char/lrng/lrng_switch.c                  |  286 ++++++
+ drivers/char/lrng/lrng_sysctl.c                  |  139 +++
+ drivers/char/lrng/lrng_sysctl.h                  |   15 +
+ drivers/char/lrng/lrng_testing.c                 |  901 +++++++++++++++++++
+ drivers/char/lrng/lrng_testing.h                 |   85 ++
+ include/crypto/drbg.h                            |    7 +
+ include/linux/lrng.h                             |  251 ++++++
+ kernel/sched/core.c                              |    3 +
+ 61 files changed, 10623 insertions(+), 7 deletions(-)
  create mode 100644 drivers/char/lrng/Kconfig
  create mode 100644 drivers/char/lrng/Makefile
  create mode 100644 drivers/char/lrng/lrng_definitions.h
@@ -125,10 +125,10 @@ Signed-off-by: sbwml <admin@cooluc.com>
  create mode 100644 include/linux/lrng.h
 
 diff --git a/crypto/drbg.c b/crypto/drbg.c
-index 3addce909..b6cc200e8 100644
+index dbe4c8bb5..af003950e 100644
 --- a/crypto/drbg.c
 +++ b/crypto/drbg.c
-@@ -115,7 +115,7 @@
+@@ -116,7 +116,7 @@
   * HMAC-SHA512 / SHA256 / AES 256 over other ciphers. Thus, the
   * favored DRBGs are the latest entries in this array.
   */
@@ -137,7 +137,7 @@ index 3addce909..b6cc200e8 100644
  #ifdef CONFIG_CRYPTO_DRBG_CTR
  	{
  		.flags = DRBG_CTR | DRBG_STRENGTH128,
-@@ -180,6 +180,7 @@ static const struct drbg_core drbg_cores[] = {
+@@ -181,6 +181,7 @@ static const struct drbg_core drbg_cores[] = {
  	},
  #endif /* CONFIG_CRYPTO_DRBG_HMAC */
  };
@@ -145,7 +145,7 @@ index 3addce909..b6cc200e8 100644
  
  static int drbg_uninstantiate(struct drbg_state *drbg);
  
-@@ -195,7 +196,7 @@ static int drbg_uninstantiate(struct drbg_state *drbg);
+@@ -196,7 +197,7 @@ static int drbg_uninstantiate(struct drbg_state *drbg);
   * Return: normalized strength in *bytes* value or 32 as default
   *	   to counter programming errors
   */
@@ -154,7 +154,7 @@ index 3addce909..b6cc200e8 100644
  {
  	switch (flags & DRBG_STRENGTH_MASK) {
  	case DRBG_STRENGTH128:
-@@ -208,6 +209,7 @@ static inline unsigned short drbg_sec_strength(drbg_flag_t flags)
+@@ -209,6 +210,7 @@ static inline unsigned short drbg_sec_strength(drbg_flag_t flags)
  		return 32;
  	}
  }
@@ -162,7 +162,7 @@ index 3addce909..b6cc200e8 100644
  
  /*
   * FIPS 140-2 continuous self test for the noise source
-@@ -1236,7 +1238,7 @@ static int drbg_seed(struct drbg_state *drbg, struct drbg_string *pers,
+@@ -1237,7 +1239,7 @@ static int drbg_seed(struct drbg_state *drbg, struct drbg_string *pers,
  }
  
  /* Free all substructures in a DRBG state without the DRBG state structure */
@@ -171,7 +171,7 @@ index 3addce909..b6cc200e8 100644
  {
  	if (!drbg)
  		return;
-@@ -1257,12 +1259,13 @@ static inline void drbg_dealloc_state(struct drbg_state *drbg)
+@@ -1258,12 +1260,13 @@ static inline void drbg_dealloc_state(struct drbg_state *drbg)
  		drbg->fips_primed = false;
  	}
  }
@@ -186,7 +186,7 @@ index 3addce909..b6cc200e8 100644
  {
  	int ret = -ENOMEM;
  	unsigned int sb_size = 0;
-@@ -1343,6 +1346,7 @@ static inline int drbg_alloc_state(struct drbg_state *drbg)
+@@ -1344,6 +1347,7 @@ static inline int drbg_alloc_state(struct drbg_state *drbg)
  	drbg_dealloc_state(drbg);
  	return ret;
  }
@@ -194,7 +194,7 @@ index 3addce909..b6cc200e8 100644
  
  /*************************************************************************
   * DRBG interface functions
-@@ -1877,8 +1881,7 @@ static int drbg_kcapi_sym_ctr(struct drbg_state *drbg,
+@@ -1878,8 +1882,7 @@ static int drbg_kcapi_sym_ctr(struct drbg_state *drbg,
   *
   * return: flags
   */
@@ -204,7 +204,7 @@ index 3addce909..b6cc200e8 100644
  {
  	int i = 0;
  	size_t start = 0;
-@@ -1905,6 +1908,7 @@ static inline void drbg_convert_tfm_core(const char *cra_driver_name,
+@@ -1906,6 +1909,7 @@ static inline void drbg_convert_tfm_core(const char *cra_driver_name,
  		}
  	}
  }
@@ -213,10 +213,10 @@ index 3addce909..b6cc200e8 100644
  static int drbg_kcapi_init(struct crypto_tfm *tfm)
  {
 diff --git a/drivers/char/Kconfig b/drivers/char/Kconfig
-index 7c8dd0abc..ffdd6ca79 100644
+index d2cfc584e..7f5de8969 100644
 --- a/drivers/char/Kconfig
 +++ b/drivers/char/Kconfig
-@@ -422,4 +422,6 @@ config ADI
+@@ -423,4 +423,6 @@ config ADI
  	  and SSM (Silicon Secured Memory).  Intended consumers of this
  	  driver include crash and makedumpfile.
  
@@ -224,7 +224,7 @@ index 7c8dd0abc..ffdd6ca79 100644
 +
  endmenu
 diff --git a/drivers/char/Makefile b/drivers/char/Makefile
-index e9b360cdc..f00df53be 100644
+index 1291369b9..c64a8b43c 100644
 --- a/drivers/char/Makefile
 +++ b/drivers/char/Makefile
 @@ -3,7 +3,8 @@
@@ -236,8 +236,8 @@ index e9b360cdc..f00df53be 100644
 +obj-$(CONFIG_RANDOM_DEFAULT_IMPL) += random.o
  obj-$(CONFIG_TTY_PRINTK)	+= ttyprintk.o
  obj-y				+= misc.o
- obj-$(CONFIG_ATARI_DSP56K)	+= dsp56k.o
-@@ -43,3 +44,5 @@ obj-$(CONFIG_PS3_FLASH)		+= ps3flash.o
+ obj-$(CONFIG_TEST_MISC_MINOR)	+= misc_minor_kunit.o
+@@ -44,3 +45,5 @@ obj-$(CONFIG_PS3_FLASH)		+= ps3flash.o
  obj-$(CONFIG_XILLYBUS_CLASS)	+= xillybus/
  obj-$(CONFIG_POWERNV_OP_PANEL)	+= powernv-op-panel.o
  obj-$(CONFIG_ADI)		+= adi.o
@@ -245,7 +245,7 @@ index e9b360cdc..f00df53be 100644
 +obj-$(CONFIG_LRNG)		+= lrng/
 diff --git a/drivers/char/lrng/Kconfig b/drivers/char/lrng/Kconfig
 new file mode 100644
-index 000000000..a8bbefafb
+index 000000000..bbab734b3
 --- /dev/null
 +++ b/drivers/char/lrng/Kconfig
 @@ -0,0 +1,1017 @@
@@ -321,20 +321,20 @@ index 000000000..a8bbefafb
 +	default n
 +	help
 +	  When enabling this option, two entropy sources must
-+	  deliver 220 bits of entropy each to consider a DRNG
++	  deliver 240 bits of entropy each to consider a DRNG
 +	  as fully seeded. Any two entropy sources can be used
 +	  to fulfill this requirement. If specific entropy sources
 +	  shall not be capable of contributing to this seeding
 +	  strategy, the respective entropy source must be configured
-+	  to provide less than 220 bits of entropy.
++	  to provide less than 240 bits of entropy.
 +
 +	  The strategy is consistent with the requirements for
-+	  NTG.1 compliance in German AIS 20/31 draft from 2022
++	  NTG.1 compliance in German AIS 20/31 version 3.0 from 2024
 +	  and is only enforced with lrng_es_mgr.ntg1=1.
 +
-+	  Compliance with German AIS 20/31 from 2011 is always
-+	  present when using /dev/random with the flag O_SYNC or
-+	  getrandom(2) with GRND_RANDOM.
++	  Compliance with German AIS 20/31 version 2.0 from 2011 is
++	  always present when using /dev/random with the flag O_SYNC
++	  or getrandom(2) with GRND_RANDOM.
 +
 +	  If unsure, say N.
 +
@@ -1313,7 +1313,7 @@ index 000000000..f61fc40f4
 +obj-$(CONFIG_LRNG_HWRAND_IF)		+= lrng_interface_hwrand.o
 diff --git a/drivers/char/lrng/lrng_definitions.h b/drivers/char/lrng/lrng_definitions.h
 new file mode 100644
-index 000000000..f6eb48e28
+index 000000000..247dd2343
 --- /dev/null
 +++ b/drivers/char/lrng/lrng_definitions.h
 @@ -0,0 +1,163 @@
@@ -1392,7 +1392,7 @@ index 000000000..f6eb48e28
 +#define LRNG_INIT_ENTROPY_BITS		32
 +
 +/* AIS20/31: NTG.1.4 minimum entropy rate for one entropy source*/
-+#define LRNG_AIS2031_NPTRNG_MIN_ENTROPY	220
++#define LRNG_AIS2031_NPTRNG_MIN_ENTROPY	240
 +
 +/*
 + * Wakeup value
@@ -1647,10 +1647,10 @@ index 000000000..7ae10f20b
 +#endif /* _LRNG_DRNG_ATOMIC_H */
 diff --git a/drivers/char/lrng/lrng_drng_chacha20.c b/drivers/char/lrng/lrng_drng_chacha20.c
 new file mode 100644
-index 000000000..31be102e3
+index 000000000..384019ec2
 --- /dev/null
 +++ b/drivers/char/lrng/lrng_drng_chacha20.c
-@@ -0,0 +1,195 @@
+@@ -0,0 +1,210 @@
 +// SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
 +/*
 + * Backend for the LRNG providing the cryptographic primitives using
@@ -1672,6 +1672,21 @@ index 000000000..31be102e3
 +
 +#define CHACHA_BLOCK_WORDS	(CHACHA_BLOCK_SIZE / sizeof(u32))
 +
++static inline void lrng_chacha20_block_compat(struct chacha20_block *chacha20,
++				 u8 *out)
++{
++	struct chacha_state state;
++
++	chacha_init_consts(&state);
++	memcpy(&state.x[4],  chacha20->key.u, sizeof(chacha20->key.u));
++	state.x[12] = chacha20->counter;
++	state.x[13] = chacha20->nonce[0];
++	state.x[14] = chacha20->nonce[1];
++	state.x[15] = chacha20->nonce[2];
++
++	chacha20_block(&state, out);
++}
++
 +/*
 + * Update of the ChaCha20 state by either using an unused buffer part or by
 + * generating one ChaCha20 block which is half of the state of the ChaCha20.
@@ -1690,7 +1705,7 @@ index 000000000..31be102e3
 +	BUILD_BUG_ON(CHACHA_BLOCK_SIZE != 2 * CHACHA_KEY_SIZE);
 +
 +	if (used_words > CHACHA_KEY_SIZE_WORDS) {
-+		chacha20_block(&chacha20->constants[0], (u8 *)tmp);
++		lrng_chacha20_block_compat(chacha20, (u8 *)tmp);
 +		for (i = 0; i < CHACHA_KEY_SIZE_WORDS; i++)
 +			chacha20->key.u[i] ^= le32_to_cpu(tmp[i]);
 +		memzero_explicit(tmp, sizeof(tmp));
@@ -1760,13 +1775,13 @@ index 000000000..31be102e3
 +	int zeroize_buf = 0;
 +
 +	while (outbuflen >= CHACHA_BLOCK_SIZE) {
-+		chacha20_block(&chacha20->constants[0], outbuf);
++		lrng_chacha20_block_compat(chacha20, outbuf);
 +		outbuf += CHACHA_BLOCK_SIZE;
 +		outbuflen -= CHACHA_BLOCK_SIZE;
 +	}
 +
 +	if (outbuflen) {
-+		chacha20_block(&chacha20->constants[0], (u8 *)aligned_buf);
++		lrng_chacha20_block_compat(chacha20, (u8 *)aligned_buf);
 +		memcpy(outbuf, aligned_buf, outbuflen);
 +		used = ((outbuflen + sizeof(aligned_buf[0]) - 1) /
 +			sizeof(aligned_buf[0]));
@@ -1848,10 +1863,10 @@ index 000000000..31be102e3
 +#endif /* CONFIG_LRNG_DFLT_DRNG_CHACHA20 */
 diff --git a/drivers/char/lrng/lrng_drng_chacha20.h b/drivers/char/lrng/lrng_drng_chacha20.h
 new file mode 100644
-index 000000000..fee657128
+index 000000000..0d5edcb98
 --- /dev/null
 +++ b/drivers/char/lrng/lrng_drng_chacha20.h
-@@ -0,0 +1,42 @@
+@@ -0,0 +1,49 @@
 +/* SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause */
 +/*
 + * LRNG ChaCha20 definitions
@@ -1882,7 +1897,14 @@ index 000000000..fee657128
 +
 +static inline void lrng_cc20_init_rfc7539(struct chacha20_block *chacha20)
 +{
-+	chacha_init_consts(chacha20->constants);
++	struct chacha_state state = {};
++
++	chacha_init_consts(&state);
++
++	chacha20->constants[0] = state.x[0];
++	chacha20->constants[1] = state.x[1];
++	chacha20->constants[2] = state.x[2];
++	chacha20->constants[3] = state.x[3];
 +}
 +
 +#define LRNG_CC20_INIT_RFC7539(x) \
@@ -2369,7 +2391,7 @@ index 000000000..5db25aaf8
 +#endif /* _LRNG_KCAPI_DRNG_H */
 diff --git a/drivers/char/lrng/lrng_drng_mgr.c b/drivers/char/lrng/lrng_drng_mgr.c
 new file mode 100644
-index 000000000..69ad26431
+index 000000000..6865761e1
 --- /dev/null
 +++ b/drivers/char/lrng/lrng_drng_mgr.c
 @@ -0,0 +1,742 @@
@@ -2687,7 +2709,7 @@ index 000000000..69ad26431
 +	 * producing data while this is ongoing.
 +	 */
 +	} while (force_seeding && forced && !drng->fully_seeded &&
-+		 num_es_delivered >= (lrng_ntg1_2022_compliant() ? 2 : 1));
++		 num_es_delivered >= (lrng_ntg1_2024_compliant() ? 2 : 1));
 +
 +	memzero_explicit(&seedbuf, sizeof(seedbuf));
 +
@@ -5192,10 +5214,10 @@ index 000000000..cf982b9ee
 +#endif /* _LRNG_ES_RANDOM_H */
 diff --git a/drivers/char/lrng/lrng_es_mgr.c b/drivers/char/lrng/lrng_es_mgr.c
 new file mode 100644
-index 000000000..8d01bedd3
+index 000000000..6ef38aa6a
 --- /dev/null
 +++ b/drivers/char/lrng/lrng_es_mgr.c
-@@ -0,0 +1,506 @@
+@@ -0,0 +1,528 @@
 +// SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
 +/*
 + * LRNG Entropy sources management
@@ -5210,6 +5232,12 @@ index 000000000..8d01bedd3
 +#include <linux/utsname.h>
 +#include <linux/workqueue.h>
 +#include <asm/archrandom.h>
++
++#ifdef CONFIG_VDSO_GETRANDOM
++#include <vdso/getrandom.h>
++#include <vdso/datapage.h>
++#include <vdso/vsyscall.h>
++#endif
 +
 +#include "lrng_drng_atomic.h"
 +#include "lrng_drng_mgr.h"
@@ -5300,9 +5328,8 @@ index 000000000..8d01bedd3
 +	return lrng_panic_on_permanent_health_failure;
 +}
 +
-+bool lrng_ntg1_2022_compliant(void)
++bool lrng_ntg1_2024_compliant(void)
 +{
-+	/* Implies use of /dev/random w/ O_SYNC / getrandom w/ GRND_RANDOM */
 +	return ntg1;
 +}
 +
@@ -5367,6 +5394,11 @@ index 000000000..8d01bedd3
 +	lrng_state.lrng_fully_seeded = false;
 +	lrng_state.lrng_min_seeded = false;
 +	lrng_state.all_online_numa_node_seeded = false;
++
++#ifdef CONFIG_VDSO_GETRANDOM
++	/* WRITE_ONCE(__arch_get_k_vdso_rng_data()->is_ready, false); */
++#endif
++
 +	pr_debug("reset LRNG\n");
 +}
 +
@@ -5403,6 +5435,14 @@ index 000000000..8d01bedd3
 +
 +static void lrng_init_wakeup(void)
 +{
++#ifdef CONFIG_VDSO_GETRANDOM
++	/*
++	 * The LRNG does not enable the user space ChaCha20
++	 * DRNG in the VDSO.
++	 */
++	/* WRITE_ONCE(__arch_get_k_vdso_rng_data()->is_ready, true); */
++#endif
++
 +	wake_up_all(&lrng_init_wait);
 +	lrng_init_wakeup_dev();
 +	lrng_kick_random_ready();
@@ -5426,8 +5466,8 @@ index 000000000..8d01bedd3
 +bool lrng_fully_seeded(bool fully_seeded, u32 collected_entropy,
 +		       struct entropy_buf *eb)
 +{
-+	/* AIS20/31 NTG.1: two entropy sources with each delivering 220 bits */
-+	if (ntg1) {
++	/* AIS20/31 NTG.1: two entropy sources with each delivering 240 bits */
++	if (!fully_seeded && ntg1) {
 +		u32 i, result = 0, ent_thresh = lrng_avail_entropy_thresh();
 +
 +		for_each_lrng_es(i) {
@@ -5468,6 +5508,10 @@ index 000000000..8d01bedd3
 +		pr_debug("LRNG set to non-operational\n");
 +		lrng_state.lrng_operational = false;
 +		lrng_state.lrng_fully_seeded = false;
++
++#ifdef CONFIG_VDSO_GETRANDOM
++		/* WRITE_ONCE(__arch_get_k_vdso_rng_data()->is_ready, false); */
++#endif
 +
 +		/* If sufficient entropy is available, reseed now. */
 +		lrng_es_add_entropy();
@@ -5528,7 +5572,7 @@ index 000000000..8d01bedd3
 +		return;
 +
 +	requested_bits = ntg1 ?
-+		/* Approximation so that two ES should deliver 220 bits each */
++		/* Approximation so that two ES should deliver 240 bits each */
 +		(lrng_avail_entropy() + LRNG_AIS2031_NPTRNG_MIN_ENTROPY) :
 +		/* Apply SP800-90C oversampling if applicable */
 +		lrng_get_seed_entropy_osr(state->all_online_numa_node_seeded);
@@ -5704,7 +5748,7 @@ index 000000000..8d01bedd3
 +}
 diff --git a/drivers/char/lrng/lrng_es_mgr.h b/drivers/char/lrng/lrng_es_mgr.h
 new file mode 100644
-index 000000000..7c4fbcb59
+index 000000000..299a58d53
 --- /dev/null
 +++ b/drivers/char/lrng/lrng_es_mgr.h
 @@ -0,0 +1,56 @@
@@ -5734,7 +5778,7 @@ index 000000000..7c4fbcb59
 +	for ((ctr) = 0; (ctr) < lrng_ext_es_last; (ctr)++)
 +
 +bool lrng_enforce_panic_on_permanent_health_failure(void);
-+bool lrng_ntg1_2022_compliant(void);
++bool lrng_ntg1_2024_compliant(void);
 +bool lrng_pool_all_numa_nodes_seeded_get(void);
 +bool lrng_state_min_seeded(void);
 +void lrng_debug_report_seedlevel(const char *name);
@@ -8725,7 +8769,7 @@ index 000000000..dc8dff981
 +#endif /* _LRNG_NUMA_H */
 diff --git a/drivers/char/lrng/lrng_proc.c b/drivers/char/lrng/lrng_proc.c
 new file mode 100644
-index 000000000..a9c8d90c7
+index 000000000..0d6cab15f
 --- /dev/null
 +++ b/drivers/char/lrng/lrng_proc.c
 @@ -0,0 +1,74 @@
@@ -8773,7 +8817,7 @@ index 000000000..a9c8d90c7
 +		 lrng_security_strength(),
 +		 numa_drngs,
 +		 lrng_sp80090c_compliant() ? "SP800-90C, " : "",
-+		 lrng_ntg1_2022_compliant() ? " / 2022" : "",
++		 lrng_ntg1_2024_compliant() ? " / 2024" : "",
 +		 lrng_state_min_seeded() ? "true" : "false",
 +		 lrng_state_fully_seeded() ? "true" : "false",
 +		 lrng_avail_entropy());
@@ -9713,7 +9757,7 @@ index 000000000..13c70797b
 +EXPORT_SYMBOL(lrng_set_hash_cb);
 diff --git a/drivers/char/lrng/lrng_sysctl.c b/drivers/char/lrng/lrng_sysctl.c
 new file mode 100644
-index 000000000..b20e2d6b7
+index 000000000..8da1c8a7e
 --- /dev/null
 +++ b/drivers/char/lrng/lrng_sysctl.c
 @@ -0,0 +1,139 @@
@@ -9770,7 +9814,7 @@ index 000000000..b20e2d6b7
 +}
 +
 +static int lrng_sysctl_do_entropy(const struct ctl_table *table, int write,
-+				void *buffer, size_t *lenp, loff_t *ppos)
++				  void *buffer, size_t *lenp, loff_t *ppos)
 +{
 +	struct ctl_table fake_table;
 +	int entropy_count = lrng_avail_entropy_aux();
@@ -11149,18 +11193,18 @@ index 000000000..c0d31a03d
 +
 +#endif /* _LRNG_H */
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index e9bb1b4c5..203a8aac6 100644
+index e460c22de..8d7b89f54 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
-@@ -7,6 +7,7 @@
-  *  Copyright (C) 1991-2002  Linus Torvalds
+@@ -8,6 +8,7 @@
   *  Copyright (C) 1998-2024  Ingo Molnar, Red Hat
   */
+ #define INSTANTIATE_EXPORTED_MIGRATE_DISABLE
 +#include <linux/lrng.h>
+ #include <linux/sched.h>
  #include <linux/highmem.h>
  #include <linux/hrtimer_api.h>
- #include <linux/ktime_api.h>
-@@ -3614,6 +3615,8 @@ ttwu_stat(struct task_struct *p, int cpu, int wake_flags)
+@@ -3642,6 +3643,8 @@ ttwu_stat(struct task_struct *p, int cpu, int wake_flags)
  {
  	struct rq *rq;
  
@@ -11170,5 +11214,5 @@ index e9bb1b4c5..203a8aac6 100644
  		return;
  
 -- 
-2.43.5
+2.15.0
 

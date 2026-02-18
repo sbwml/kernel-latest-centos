@@ -1,37 +1,37 @@
-From 9dc8bdfa6714914730bdb8252dde1d950885d663 Mon Sep 17 00:00:00 2001
+From e367756ae35d94fe15582e3b5c516565d3372554 Mon Sep 17 00:00:00 2001
 From: sbwml <admin@cooluc.com>
 Date: Sat, 23 Nov 2024 22:18:00 +0800
-Subject: [PATCH 04/13] modpost: remove self definitions of R_ARM_* macros
+Subject: [PATCH 4/5] modpost: remove self definitions of R_ARM_* macros
 
 Signed-off-by: sbwml <admin@cooluc.com>
 ---
- scripts/mod/modpost.c | 67 -------------------------------------------
+ scripts/mod/modpost.c | 67 ---------------------------------------------------
  1 file changed, 67 deletions(-)
 
 diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 971eda0c6..da7aba67d 100644
+index 47c8aa2a6..d92bd77d5 100644
 --- a/scripts/mod/modpost.c
 +++ b/scripts/mod/modpost.c
-@@ -1175,75 +1175,8 @@ static Elf_Addr addend_arm_rel(void *loc, Elf_Sym *sym, unsigned int r_type)
+@@ -1184,75 +1184,8 @@ static Elf_Addr addend_arm_rel(void *loc, Elf_Sym *sym, unsigned int r_type)
  	case R_ARM_REL32:
- 		inst = TO_NATIVE(*(uint32_t *)loc);
+ 		inst = get_unaligned_native((uint32_t *)loc);
  		return inst + sym->st_value;
 -	case R_ARM_MOVW_ABS_NC:
 -	case R_ARM_MOVT_ABS:
--		inst = TO_NATIVE(*(uint32_t *)loc);
+-		inst = get_unaligned_native((uint32_t *)loc);
 -		offset = sign_extend32(((inst & 0xf0000) >> 4) | (inst & 0xfff),
 -				       15);
 -		return offset + sym->st_value;
  	case R_ARM_PC24:
 -	case R_ARM_CALL:
 -	case R_ARM_JUMP24:
--		inst = TO_NATIVE(*(uint32_t *)loc);
+-		inst = get_unaligned_native((uint32_t *)loc);
 -		offset = sign_extend32((inst & 0x00ffffff) << 2, 25);
 -		return offset + sym->st_value + 8;
 -	case R_ARM_THM_MOVW_ABS_NC:
 -	case R_ARM_THM_MOVT_ABS:
--		upper = TO_NATIVE(*(uint16_t *)loc);
--		lower = TO_NATIVE(*((uint16_t *)loc + 1));
+-		upper = get_unaligned_native((uint16_t *)loc);
+-		lower = get_unaligned_native((uint16_t *)loc + 1);
 -		offset = sign_extend32(((upper & 0x000f) << 12) |
 -				       ((upper & 0x0400) << 1) |
 -				       ((lower & 0x7000) >> 4) |
@@ -48,8 +48,8 @@ index 971eda0c6..da7aba67d 100644
 -		 * imm11 = lower[10:0]
 -		 * imm32 = SignExtend(S:J2:J1:imm6:imm11:'0')
 -		 */
--		upper = TO_NATIVE(*(uint16_t *)loc);
--		lower = TO_NATIVE(*((uint16_t *)loc + 1));
+-		upper = get_unaligned_native((uint16_t *)loc);
+-		lower = get_unaligned_native((uint16_t *)loc + 1);
 -
 -		sign = (upper >> 10) & 1;
 -		j1 = (lower >> 13) & 1;
@@ -72,8 +72,8 @@ index 971eda0c6..da7aba67d 100644
 -		 * I2    = NOT(J2 XOR S)
 -		 * imm32 = SignExtend(S:I1:I2:imm10:imm11:'0')
 -		 */
--		upper = TO_NATIVE(*(uint16_t *)loc);
--		lower = TO_NATIVE(*((uint16_t *)loc + 1));
+-		upper = get_unaligned_native((uint16_t *)loc);
+-		lower = get_unaligned_native((uint16_t *)loc + 1);
 -
 -		sign = (upper >> 10) & 1;
 -		j1 = (lower >> 13) & 1;
@@ -89,5 +89,5 @@ index 971eda0c6..da7aba67d 100644
  
  	return (Elf_Addr)(-1);
 -- 
-2.43.5
+2.15.0
 

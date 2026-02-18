@@ -1,0 +1,66 @@
+diff --git a/usr/gen_init_cpio.c b/usr/gen_init_cpio.c
+index b7296edc6..1838b98f5 100644
+--- a/usr/gen_init_cpio.c
++++ b/usr/gen_init_cpio.c
+@@ -13,6 +13,7 @@
+ #include <errno.h>
+ #include <ctype.h>
+ #include <limits.h>
++#include <sys/syscall.h>
+ 
+ /*
+  * Original work by Jeff Garzik
+@@ -355,9 +356,44 @@ static int cpio_mkfile_csum(int fd, unsigned long size, uint32_t *csum)
+ 	return 0;
+ }
+ 
++
++/*
++ * Fallback for copy_file_range() using read/write.
++ */
++static ssize_t do_copy_file(int in, int out, size_t size)
++{
++#ifdef __NR_copy_file_range
++	ssize_t ret = syscall(__NR_copy_file_range, in, NULL, out, NULL, size, 0);
++	/* If syscall is not supported, fall through to read/write loop */
++	if (ret != -1 || errno != ENOSYS)
++		return ret;
++#endif
++
++	/* Fallback for systems without copy_file_range */
++	char buf[8192];
++	size_t total_written = 0;
++	while (size > 0) {
++		ssize_t bytes_read = read(in, buf, size > sizeof(buf) ? sizeof(buf) : size);
++		if (bytes_read <= 0) {
++			if (total_written > 0)
++				return total_written;
++			return bytes_read;
++		}
++		ssize_t bytes_written = write(out, buf, bytes_read);
++		if (bytes_written != bytes_read) {
++			/* Should not happen when writing to stdout */
++			return -EIO;
++		}
++		total_written += bytes_written;
++		size -= bytes_written;
++	}
++	return total_written;
++}
++
+ static int cpio_mkfile(const char *name, const char *location,
+ 			unsigned int mode, uid_t uid, gid_t gid,
+ 			unsigned int nlinks)
++
+ {
+ 	struct stat buf;
+ 	unsigned long size;
+@@ -457,7 +493,7 @@ static int cpio_mkfile(const char *name, const char *location,
+ 			goto error;
+ 
+ 		if (size) {
+-			this_read = copy_file_range(file, NULL, outfd, NULL, size, 0);
++			this_read = do_copy_file(file, outfd, size);
+ 			if (this_read > 0) {
+ 				if (this_read > size)
+ 					goto error;
