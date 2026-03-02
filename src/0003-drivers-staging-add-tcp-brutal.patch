@@ -1,4 +1,4 @@
-From 235a3e710f4125df07203ef94c779d6a927f7f01 Mon Sep 17 00:00:00 2001
+From 08842ebc7f72c6a2eb85bbdcd27fb49ebb0c2862 Mon Sep 17 00:00:00 2001
 From: sbwml <admin@cooluc.com>
 Date: Sat, 23 Nov 2024 22:17:39 +0800
 Subject: [PATCH 3/5] drivers/staging: add tcp brutal
@@ -9,7 +9,7 @@ Signed-off-by: sbwml <admin@cooluc.com>
  drivers/staging/Makefile            |   1 +
  drivers/staging/tcp_brutal/Kconfig  |   7 +
  drivers/staging/tcp_brutal/Makefile |   3 +
- drivers/staging/tcp_brutal/brutal.c | 316 ++++++++++++++++++++++++++++++++++++
+ drivers/staging/tcp_brutal/brutal.c | 316 ++++++++++++++++++++++++++++
  5 files changed, 329 insertions(+)
  create mode 100644 drivers/staging/tcp_brutal/Kconfig
  create mode 100644 drivers/staging/tcp_brutal/Makefile
@@ -380,5 +380,5 @@ index 000000000..f73ca55bf
 +MODULE_DESCRIPTION("TCP Brutal");
 +MODULE_VERSION("1.0.3");
 -- 
-2.15.0
+2.43.5
 
