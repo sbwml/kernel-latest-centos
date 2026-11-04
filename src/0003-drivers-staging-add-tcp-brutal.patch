@@ -1,4 +1,4 @@
-From 08842ebc7f72c6a2eb85bbdcd27fb49ebb0c2862 Mon Sep 17 00:00:00 2001
+From 2b5c9061457d5607f7b62f4e31534623f0d80aff Mon Sep 17 00:00:00 2001
 From: sbwml <admin@cooluc.com>
 Date: Sat, 23 Nov 2024 22:17:39 +0800
 Subject: [PATCH 3/5] drivers/staging: add tcp brutal
@@ -16,7 +16,7 @@ Signed-off-by: sbwml <admin@cooluc.com>
  create mode 100644 drivers/staging/tcp_brutal/brutal.c
 
 diff --git a/drivers/staging/Kconfig b/drivers/staging/Kconfig
-index 075e775d3..ed85fb656 100644
+index 075e775d3868b..ed85fb656422e 100644
 --- a/drivers/staging/Kconfig
 +++ b/drivers/staging/Kconfig
 @@ -50,4 +50,6 @@ source "drivers/staging/vme_user/Kconfig"
@@ -27,7 +27,7 @@ index 075e775d3..ed85fb656 100644
 +
  endif # STAGING
 diff --git a/drivers/staging/Makefile b/drivers/staging/Makefile
-index e681e4035..c7c8098bf 100644
+index e681e403509ce..c7c8098bf3084 100644
 --- a/drivers/staging/Makefile
 +++ b/drivers/staging/Makefile
 @@ -14,3 +14,4 @@ obj-$(CONFIG_GREYBUS)		+= greybus/
@@ -37,7 +37,7 @@ index e681e4035..c7c8098bf 100644
 +obj-$(CONFIG_TCP_BRUTAL)	+= tcp_brutal/
 diff --git a/drivers/staging/tcp_brutal/Kconfig b/drivers/staging/tcp_brutal/Kconfig
 new file mode 100644
-index 000000000..b16f25d0b
+index 0000000000000..b16f25d0b9a66
 --- /dev/null
 +++ b/drivers/staging/tcp_brutal/Kconfig
 @@ -0,0 +1,7 @@
@@ -50,7 +50,7 @@ index 000000000..b16f25d0b
 +	  TCP Brutal is Hysteria's congestion control algorithm ported to TCP.
 diff --git a/drivers/staging/tcp_brutal/Makefile b/drivers/staging/tcp_brutal/Makefile
 new file mode 100644
-index 000000000..37728df99
+index 0000000000000..37728df999213
 --- /dev/null
 +++ b/drivers/staging/tcp_brutal/Makefile
 @@ -0,0 +1,3 @@
@@ -59,7 +59,7 @@ index 000000000..37728df99
 +obj-$(CONFIG_TCP_BRUTAL) += brutal.o
 diff --git a/drivers/staging/tcp_brutal/brutal.c b/drivers/staging/tcp_brutal/brutal.c
 new file mode 100644
-index 000000000..f73ca55bf
+index 0000000000000..f73ca55bfcfcb
 --- /dev/null
 +++ b/drivers/staging/tcp_brutal/brutal.c
 @@ -0,0 +1,316 @@
@@ -380,5 +380,5 @@ index 000000000..f73ca55bf
 +MODULE_DESCRIPTION("TCP Brutal");
 +MODULE_VERSION("1.0.3");
 -- 
-2.43.5
+2.52.0
 
